@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+{% get_static_prefix as RES %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+	  <title>Jynx</title>
+         
+          <meta name="description" content="Jynx.in, a place for people to be social, casually. Cause it's always a breeze to share the zigs in your life with us on this Social Media made just for you." >
+          <meta name="keywords" content="Jynx.in, Jynx, Anonymous, Social, Zigs, Social Media" >
+           <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- UIkit JS -->
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+</head>
+<body style="background-color: #FFFFFE;">
+
+
+<!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container">
+
+        <div class="uk-child-width-1-3@m uk-child-width-1-1@s" uk-grid>
+        	<div class="uk-width-1-3@m">
+               <img src="{{ RES }}image/socialfriends.svg">
+            </div>
+           
+        	  <div class="uk-width-expand">
+        	  	 <center>
+        	  	<h1><img src="{{RES}}logo_full_black.svg" style="height: 100px;width: 360px;" uk-svg></h1>
+                
+                <h3>Share, Review, Connect, Enjoy!</h3>
+                <div class="uk-button-group">
+                 <a class="uk-button uk-button-default uk-button-large uk-margin-small-right" style="border-radius:30px;" href="{% url 'login' %}">Login</a>
+                 <a class="uk-button uk-button-secondary uk-button-large" style="border-radius:30px;" href="{% url 'signup' %}">Signup</a>
+             </div>
+                     </center>
+            </div>
+
+
+            
+          
+           
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div class="uk-section uk-section-secondary ">
+    <div class="uk-container">
+
+       
+
+        <div class="uk-grid-match uk-child-width-1-3@m" uk-grid>
+            <div>
+            	<center><span class="uk-icon " uk-icon="icon: bolt; ratio: 3;"></span>
+                <p>Share the Zigs in your life</p></center>
+            </div>
+            <div>
+            	<center><span class="uk-icon " uk-icon="icon: users; ratio: 3;"></span>
+                <p>With friends you connect</p></center>
+            </div>
+            <div>
+            	<center><span class="uk-icon " uk-icon="icon: commenting; ratio: 3;"></span>
+                <p>Be casually social</p></center>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% include 'staticfooter.html' %}
+
+
+
+
+
+
+</body>
+</html>

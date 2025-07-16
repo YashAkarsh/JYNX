@@ -1,0 +1,57 @@
+
+.acccir{
+	font-size: 10vh;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  
+}
+
+::-webkit-scrollbar-thumb {
+  background: #999; border-radius: 100px;
+}
+.zigg{
+	display:inline-block;float: left; padding-top: 20vh;
+}
+
+.commentlist{
+    list-style-type:none;height:100%;width: 50vw;
+}
+.panel2{float: right; display:inline-block;}
+
+.seperatorhorizontal{display: none;}
+
+
+    .midline{
+    	display: none;
+    }
+    .panel1{
+    	padding-top: 0vh;
+    }
+    .zigg{
+    	display: block;
+    	
+    	width: 100%;
+
+    	float:none;
+    	padding-top: 0vh;
+
+    }
+    .panel2{
+    	display: block;
+    	float: none;
+    	left: 0%;
+
+    }
+    .material-symbols-outlined{
+    	font-size: 2em;
+    }
+    .acccir{font-size: 5em;}
+    .commentlist{
+    	width: 90%;
+    }
+    .seperatorhorizontal{
+        display: block;
+    }

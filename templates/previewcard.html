@@ -1,0 +1,162 @@
+  {% load static %}
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css"><center>
+	{% include "share.html" with idd=zig.id %}
+<style type="text/css">
+	.zigtitle{
+			font-size:22px ;
+		}
+		 @media (max-width: 720px){
+		 	.zigtitle{
+		 		font-size: 17px;
+		 	}
+		 }
+</style>
+	<div class=" uk-grid uk-child-width-expand uk-flex-row-reverse uk-width-3-4@m ">
+
+		<div class="uk-card uk-card-default uk-width-expand uk-animation-fade uk-margin-small" style="border-radius:30px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+
+			<div class="uk-card-header uk-margin-small-bottom uk-margin-remove-right uk-padding-remove-horizontal">
+
+
+				<div class="uk-align-left uk-width-expand">
+				<div class="uk-grid uk-grid-small uk-width-expand" uk-grid>
+					<div class="uk-width-auto uk-padding-remove-horizontal  uk-flex-middle">
+						{% if zig.anonymous == True %}
+							<div style="width: 40px; height: 40px; border-radius: 50px; overflow: hidden;">
+								<img style="width: 100%; height: 100%; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+							</div>
+						{% else %}
+							<div style="width: 40px; height: 40px; border-radius: 50px; overflow: hidden;">
+								<a class="uk-link" href="/{{zig.user.userdata.userID|urlencode}}" style="color:inherit; text-decoration: none;"><img style="width: 100%; height: 100%; object-fit: cover;" src="{{zig.user.userdata.profilePic.url}}" alt="Avatar"></a>
+							</div>
+						{% endif %}
+
+
+					</div>
+					<div class="uk-width-expand  uk-flex-middle">
+
+
+						<h3 class="zigtitle uk-text-break uk-margin-remove-bottom  uk-text-left" >{{zig.title|linebreaks}} </h3>
+						{% if zig.anonymous == True %}
+							<p class="uk-text-meta uk-margin-remove-top  uk-text-left">Anonymous, <time
+								datetime={{date}}>{{zig.date}}</time></p>
+						{% else %}
+							<p class="uk-text-meta uk-margin-remove-top  uk-text-left"><a
+								class="uk-link" href="/{{zig.user.userdata.userID|urlencode}}">{{zig.user.userdata.userID}} </a>, <time
+								datetime={{date}}>{{zig.date}}</time></p>
+						{% endif %}
+
+
+					</div>
+					<div class="uk-width-auto uk-padding-remove uk-text-top">
+                          <a   uk-icon="icon: social;ratio:1.2;" onclick="showsharemodal_{{ zig.id }}(this); fetch_image_{{zig.id}}()"></a>
+                    </div>
+				</div>
+			</div>
+			</div>
+
+			<div class="uk-card-body uk-margin-small-top uk-padding-small">
+				<!-- comment -->
+				<p class="uk-text-lead uk-margin-small  uk-text-left"  style="font-size:larger;">Top Comment:</p>
+				<div class="uk-grid-small" uk-grid>
+
+					<div class="uk-width-expand uk-text-left" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+						{% if replies %}
+						  <div style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; overflow: hidden;">
+							<img style="width: 100%; height: 100%; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+						  </div>
+						  {% if zig.hidden_replies == False %}
+							{% if replies.0.sender == request.user %}
+								You: {{replies.0.content}}
+							{% else %}
+								Anonymous: {{replies.0.content}}
+							{% endif %}
+						  {% else %}
+							Replies are hidden
+						  {% endif %}
+
+
+						{% else %}
+						  No replies yet
+						{% endif %}
+					  </div>
+					  {% if replies and zig.hidden_replies == False %}
+					  <div class="uk-auto">
+						  {% include "likebutton.html" with likecount=replies.0.likes.count reply_id=replies.0.id like_senders=replies.0.likes.all %}
+
+
+								<!-- dont remove this close div it closes a div open in likebutton.html -->
+								<!-- /\ dont remove -->
+
+						</div>
+					</div>
+					{% endif %}
+				</div>
+
+			</div>
+			<div class="uk-card-footer">
+				<center>
+					{% if zig.user != request.user %}
+
+
+				    <a style="color:#231F20" href="#reportconfirmationmodal_{{zig.id}}" class="uk-width-auto uk-position-bottom-right uk-margin-bottom  uk-margin-right" uk-icon="icon:warning;ratio:1.5;" uk-toggle></a>
+				<div id="reportconfirmationmodal_{{zig.id}}" uk-modal>
+				    <div class="uk-modal-dialog uk-modal-body">
+				        <h2 class="uk-modal-title">Are you sure you want to report this user?</h2>
+				        <p class="uk-text-right">
+				            <button class="uk-button uk-button-danger uk-modal-close" type="button ">Cancel</button>
+				            <button class="uk-button uk-button-primary " onclick="zigreport(this,'zig','{{zig.id}}');UIkit.modal(reportconfirmationmodal_{{zig.id}}).hide();" type="button">Yes</button>
+				        </p>
+
+				    </div>
+				    </div>
+					{% endif %}
+
+					<button class="uk-button uk-button-default" style="border-radius: 50px;" href="#modal"
+						onclick="openmodal('{{zig.id}}')">See More  ({{replies.count}})</button>
+
+				</center>
+			</div>
+		</div>
+
+</center>
+
+<script>
+	function fetch_image_{{zig.id}}(){
+				var csrftoken = getCookie('csrftoken');
+
+				$.ajax({
+					headers: {
+									'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+								},
+					url: '{% url "share" %}',
+					data:{
+						'form_function':'shareImage',
+						'zig':'{{zig.id}}',
+					},
+					method: 'POST',
+					success: function (response) {
+						var imageUrl = 'data:image/png;base64,' + response.image;
+						obj=document.getElementById('image_container_{{zig.id}}')
+						obj.src=imageUrl
+					},
+					error: function (error) {
+						console.error('Error fetching image:', error);
+					}
+				});
+			}
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+</script>

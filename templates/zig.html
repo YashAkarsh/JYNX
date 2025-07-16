@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+
+<head>
+	{% load static %}
+{% get_static_prefix as RES %}
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+
+	  <title>Jynx - {{ zig.title|truncatechars:255 }}</title>
+		 
+<meta name="google-adsense-account" content="ca-pub-5689772837818987"> 		 
+  		   <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- UIkit JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+</head>
+<body style="background-color: #FFFFFE;">
+<span class="uk-position-fixed uk-position-top-center uk-margin-small-bottom uk-margin-small-right uk-padding-small" style="font-weight: bolder;z-index: 99999;display:none;margin-top:1vh" uk-spinner="ratio: 1.2" id="loader"></span>
+
+
+<div class="uk-padding-small uk-width-1-1" id="breadcrumb" style="display: none">
+<ul class="uk-breadcrumb">
+<li><a href="https://yashakarsh23.pythonanywhere.com/">Jynx</a></li>
+{% if zig.anonymous and zig.user != request.user%}
+
+	<li><a>Anonymous</a></li>
+{% else %}
+	<li><a href="https://yashakarsh23.pythonanywhere.com/{{zig.user.userdata.userID}}/">{{zig.user.userdata.userID}}</a></li>
+{% endif %}
+<li><span>Zig</span></li>
+</ul>
+</div>
+
+
+<div uk-grid>
+<div class="uk-width-expand">
+<div class="uk-card uk-card-default uk-margin-remove-top uk-card-body uk-overflow-auto" style="padding-bottom: 10%;">
+
+
+
+ <div class="uk-width-auto" style="padding-left: 10px;">  
+    <a class="uk-margin-small-right uk-margin-remove-bottom uk-position-top-left" style="padding: 7px 0px 0px 7px" uk-icon="icon: social;ratio:1.5;" onclick="showsharemodal_{{ zig.id }}(this);fetch_image_{{zig.id}}()"></a>
+</div>
+
+
+<!-- mobile view -->
+<div class=" uk-hidden@m">
+
+                    <div class="uk-width-expand" >
+                    	<div class="uk-width-auto" >
+				<h2 class="uk-card-title uk-text-center"> 
+				{% if zig.anonymous == True and zig.user != request.user %}
+					<img class="uk-border-circle" style="width: 70px; height: 70px; object-fit: cover;" src="/static/image/pp.jpg"  alt="Avatar">
+				{% else %}
+					<img class="uk-border-circle" style="width: 70px; height: 70px; object-fit: cover;" src="{{zig.user.userdata.profilePic.url}}" alt="Avatar">
+				{% endif %}</h2>
+			</div>
+			<div class=" uk-text-left uk-width-expand "  style="font-size: larger;"> {{ zig.title }}
+				{% if zig.anonymous == True and zig.user != request.user %}
+					<p class="uk-text-meta uk-margin-remove-top">By Anonymous, <time datetime={{zig.date}}>{{zig.date}}</time></p>
+				{% else %}
+					<p class="uk-text-meta uk-margin-remove-top">By {{zig.user.userdata.Username}}, <time datetime={{zig.date}}>{{zig.date}}</time></p>
+				{% endif %}
+			</div>
+                    </div>
+
+				{% if zig.image %}
+				  
+				<div class="uk-text-center uk-margin-small-top">
+					<div style="background-color:transparent;box-shadow: black;" class="uk-width-expand uk-height-max-large  "  style="height:auto">
+                        
+                        <img src="{{zig.image.url}}" id="zigimage"  ondblclick="fullscreenimg(this)"   class="uk-width-auto uk-height-max-large" alt="zig Image" style="border: double 7px black;outline-offset: 5px;border-radius: 5px;">
+						
+                        
+                    </div>
+                </div>
+				
+				{% endif %}
+				
+                   <!-- UNCOMMENT BELOW FOR SPOTIFY -->
+				{% if zig.type == 'song_type' %}
+				  
+				<div>
+					<div style="background-color:transparent;" class="uk-width-expand"  style="height:auto">
+						{% if not zig.playlist %}
+						  
+						<iframe style="border-radius:12px;background:url('{{RES}}images/loader.gif') center center no-repeat;" src="https://open.spotify.com/embed/track/{{zig.track_url}}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+						
+						{% else %}
+						
+						<iframe style="border-radius:12px;background:url('{{RES}}images/loader.gif') center center no-repeat;" src="https://open.spotify.com/embed/{{zig.playlist_url}}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+						{% endif %}
+						
+						
+					</div>
+				</div>
+				{% endif %}
+
+
+
+
+
+
+            <!-- UNCOMMENT BELOW FOR YOUTUBE -->
+
+
+			{% if zig.type == 'yt_type' %}
+			  
+ 			<div>
+                <div style="background-color:transparent;" class="uk-width-expand   "  style="height:auto">
+
+
+
+
+                <div style=" position: relative; padding-bottom: 56.25%; height: 0;"  class="uk-width-auto uk-height-max-large" >
+
+                   <iframe class="uk-width-expand " style="position: absolute; top: 0; left: 0; width: 100%;  height: 100%;background:url('{{RES}}images/loader.gif') center center no-repeat;" src="https://www.youtube.com/embed/{{zig.yt_url}}?color=white&rel=0&modestbranding=1" title="zig youtube embed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope;web-share"  allowfullscreen></iframe>
+                </div>
+                    
+
+                </div>
+            </div>
+ 
+			{% endif %}
+
+
+                    
+
+
+
+
+
+
+         
+
+
+
+
+
+</div>
+
+<!-- DESKTOP VIEW -->
+
+<div class=" uk-visible@m uk-grid uk-grid-match" uk-grid>
+
+
+
+
+	<div class="uk-width-expand uk-flex-middle uk-text-center" >
+	<div >
+			<h2 class="uk-card-title "> 
+				{% if zig.anonymous == True and zig.user != request.user %}
+					<img class="uk-border-circle" style="width: 100px; height: 100px; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+				{% else %}
+					<img class="uk-border-circle" style="width: 100px; height: 100px; object-fit: cover;" src="{{zig.user.userdata.profilePic.url}}" alt="Avatar" >
+				{% endif %}
+				</h2>
+				<center>
+				<div class=" uk-text-left uk-width-4-5 " style="font-size: x-large;"> <center>{{ zig.title }}</center>
+				{% if zig.anonymous == True and zig.user != request.user %}
+				<center><p class="uk-text-meta uk-margin-remove-top">By Anonymous, <time datetime={{zig.date}}>{{zig.date}}</time></p></center>
+				{% else %}
+				<center><p class="uk-text-meta uk-margin-remove-top">By {{zig.user.userdata.Username}}, <time datetime={{zig.date}}>{{zig.date}}</time></p></center>
+				{% endif %}
+				</div></center>
+
+			</div> 
+		</div>
+
+
+           
+                    
+                   
+           	<!-- UNCOMMENT BELOW FOR IMAGE -->
+			{% if zig.image %}			
+			<div class="uk-grid uk-grid-small uk-width-3-5" uk-grid> 
+			<div class="uk-text-center ">
+                    <div style="background-color:transparent;box-shadow: black;" class="uk-width-expand uk-height-max-large  "  style="height:auto">
+                        
+                        <img src="{{zig.image.url}}" id="zigimage"  ondblclick="fullscreenimg(this)"   class="uk-width-auto uk-height-max-large" style="border: double 7px black;outline-offset: 5px;border-radius: 5px;" alt="zig Image">
+                    
+                        
+                    </div>
+                </div> 
+			</div>
+			  
+			{% endif %}
+
+
+			{% if zig.type == 'song_type' %}
+			  
+                <!-- UNCOMMENT BELOW FOR SPOTIFY -->
+				<div class="uk-grid uk-grid-small uk-width-3-5" uk-grid> 
+                 <div>
+                <div style="background-color:transparent;" class="uk-width-expand"  style="height:auto">
+					
+					{% if not zig.playlist %}
+                    	<iframe style="border-radius:12px;background:url('{{RES}}images/loader.gif') center center no-repeat;" src="https://open.spotify.com/embed/track/{{zig.track_url}}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>				
+					{% else %}
+						<iframe style="border-radius:12px;background:url('{{RES}}images/loader.gif') center center no-repeat;" src="https://open.spotify.com/embed/{{zig.playlist_url}}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+					{% endif %}
+               
+               
+                  
+                </div>
+            </div>      </div>  
+			{% endif %}
+
+
+
+
+
+
+
+
+
+            <!-- UNCOMMENT BELOW FOR YOUTUBE -->
+
+			{% if zig.type == 'yt_type' %}
+			  
+
+ 			<div class="uk-grid uk-grid-small uk-width-3-5" uk-grid> 
+ 			<div>
+                <div style="background-color:transparent;" class="uk-width-expand   "  style="height:auto">
+                <div style=" position: relative; padding-bottom: 56.25%; height: 0;"  class="uk-width-auto uk-height-max-large" >
+
+                   <iframe class="uk-width-expand " style="position: absolute; top: 0; left: 0; width: 100%;  height: 100%;background:url('{{RES}}images/loader.gif') center center no-repeat;" src="https://www.youtube.com/embed/{{zig.yt_url}}?color=white&rel=0&modestbranding=1" title="zig youtube embed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope;web-share"  allowfullscreen></iframe>
+                </div>
+                    
+
+                </div>
+            </div>       </div>
+
+
+			{% endif %}
+           
+
+
+
+
+
+
+
+               
+
+</div>
+
+
+
+
+
+			
+
+
+
+
+
+				
+
+<hr class="uk-divider-icon">
+
+
+
+<div class=" uk-grid-small uk-grid-match uk-margin-medium-bottom" uk-grid >	
+	<div class="uk-width-expand"> 
+		{% if request.user.is_anonymous %}
+		  
+		  	<input onkeypress="if (event.keyCode === 13) add_reply()" id="opinion_box"  autocomplete="off" class="uk-input uk-form-blank uk-width-expand" style="word-wrap: break-word;" type="text" placeholder="Login to add your replies here" disabled>
+		{% else %}
+			<input onkeypress="if (event.keyCode === 13) add_reply()" id="opinion_box"  autocomplete="off" class="uk-input uk-form-blank uk-width-expand" style="word-wrap: break-word;" type="text" placeholder="Add your comment">
+		  
+		{% endif %}
+		
+	</div>
+
+	<div class="uk-width-auto uk-text-lead"> 
+		{% if request.user.is_anonymous %}
+		  
+			<a currentZig="{{zig.id}}" class="uk-button uk-button-default uk-button-small" href="{% url 'login' %}">Login</a></div>
+		{% else %}
+			<a currentZig="{{zig.id}}" class="uk-button uk-button-default uk-button-small" onclick="add_reply()">Post</a></div>
+		{% endif %}
+		
+	
+</div>
+
+<!-- REPLIES -->
+	<div id="reply-section" >
+
+	{% if zig.user != request.user and zig.hidden_replies == True %}
+		{% for reply in replies %}
+		  {% if reply.sender == request.user %}
+				<div class=" uk-margin-small-bottom">
+					<div class="uk-grid uk-grid-collapse uk-margin-remove uk-padding-remove"  style="font-size: 1.2em;height:auto;" uk-grid >
+						<div class="uk-width-auto"> <img class="uk-border-circle" style="border-radius: 50px;background-size: cover;aspect-ratio: 1;"  width="20" height="20" src="{{ RES }}image/pp.jpg" alt="Avatar"> &nbsp;You</div>
+						<div class="uk-width-expand" ></div>
+						<div class="uk-width-auto uk-align-right uk-margin-remove"> 
+							{% include "likebutton.html" with likecount=reply.likes.count reply_id=reply.id  like_senders=reply.likes.all %}
+							
+							<!-- dont remove this close div it closes a div open in likebutton.html -->
+							</div>
+						<!-- /\ dont remove -->
+						</div>
+					</div>
+						</div>
+					<div class="uk-width-expand uk-text-left uk-margin-left uk-text-break " style="font-size: 1.2em">{{reply.content}} </div>
+			
+		  {% endif %}
+		{% endfor %}
+		Replies are hidden
+	{% else %}
+			{% for reply in replies %} 
+				{% if reply.card == zig %}
+				{% if reply.sender == request.user %}
+				<div id="reply_{{reply.id}}">
+				<div class=" uk-margin-small-bottom" >
+						<div class="uk-grid uk-grid-collapse uk-margin-remove uk-padding-remove"  style="font-size: 1.2em;height:auto;" uk-grid >
+						<div class="uk-width-auto"> <img class="uk-border-circle" style="border-radius: 50px;background-size: cover;aspect-ratio: 1;"  width="20" height="20" src="{{ RES }}image/pp.jpg" alt="Avatar"> &nbsp;You</div>
+						<div class="uk-width-expand" ></div>
+						<div class="uk-width-auto uk-align-right uk-margin-remove"> 
+							{% include "likebutton.html" with likecount=reply.likes.count reply_id=reply.id like_senders=reply.likes.all %}
+							<span class="uk-margin-small-right" style="height:auto;margin-top: 3px;"  uk-icon="icon: trash;ratio:1.2;" onclick='delete_reply("{{reply.id}}")'></span>
+							
+							<!-- dont remove this close div it closes a div open in likebutton.html -->
+							</div>
+						<!-- /\ dont remove -->
+						</div>
+					</div>
+							</div>				
+					<div class="uk-width-expand uk-text-left uk-margin-left uk-text-break ">{{reply.content}} </div>
+				</div>
+				{% endif %}
+				{% endif %}
+			{% endfor %}
+			
+
+			{% for reply in replies %} 
+				{% if reply.card == zig %}
+				{% if reply.sender != request.user %}
+				<div class=" uk-margin-small-bottom">
+					<div class="uk-grid uk-grid-collapse uk-margin-remove uk-padding-remove"  style="font-size: 1.2em;height:auto;" uk-grid >
+						<div class="uk-width-auto"> <img class="uk-border-circle" style="border-radius: 50px;background-size: cover;aspect-ratio: 1;"  width="20" height="20" src="{{ RES }}image/pp.jpg" alt="Avatar"> &nbsp;Anonymous</div>
+						<div class="uk-width-expand" ></div>
+						<div class="uk-width-auto uk-align-right uk-margin-remove"> 
+							{% include "likebutton.html" with likecount=reply.likes.count reply_id=reply.id like_senders=reply.likes.all %}
+							<!-- <span class="uk-margin-small-right "  style="height:auto;margin-top: 3px;"  uk-icon="icon: warning;ratio:1.2;"></span> -->
+							<a class="uk-margin-small-right" href="#reportconfirmationmodal_{{reply.id}}" uk-icon="icon: warning;ratio:1.2;" uk-toggle></a>
+							<div id="reportconfirmationmodal_{{reply.id}}" uk-modal>
+								<div class="uk-modal-dialog uk-modal-body">
+									<h2 class="uk-modal-title">Are you sure you want to report this user?</h2>
+									<p class="uk-text-right">
+										<button class="uk-button uk-button-danger uk-modal-close" type="button ">Cancel</button>
+										<button class="uk-button uk-button-primary " onclick="zigreport(this,'reply','{{reply.id}}');UIkit.modal(reportconfirmationmodal_{{reply.id}}).hide();" type="button">Yes</button>
+									</p>
+			
+								</div>
+								</div>
+							<!-- dont remove this close div it closes a div open in likebutton.html -->
+							</div>
+
+						<!-- /\ dont remove -->
+						</div>
+					</div>
+					</div>
+					<div class="uk-width-expand uk-text-break  uk-text-left uk-margin-left">{{reply.content}} </div>
+			
+				{% endif %}
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endif %}
+	
+	
+
+
+
+<!-- <div class="uk-width-1-4@m uk-visible@m">
+
+
+
+
+<div class="uk-overflow-auto uk-height-max-large uk-position-fixed" uk-height-viewport="expand: true">
+	<div class="uk-text-center uk-margin-small uk-padding-remove" style="font-size: large;">Advertisement</div>
+	
+	<img class="uk-margin-small-bottom"  src="https://picsum.photos/300/200?grayscale">
+	<img  class="uk-margin-small-bottom"  src="https://picsum.photos/300/200?grayscale">
+	<img   class="uk-margin-small-bottom" src="https://picsum.photos/300/200?grayscale">
+	<img  class="uk-margin-small-bottom" src="https://picsum.photos/300/200?grayscale">
+</div>
+
+</div>  -->
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+{% include "share.html" with idd=zig.id %}
+<script>
+
+function dispbreadcrumbs(){if (window.location !== window.parent.location) { 
+document.getElementById("breadcrumb").style.display = 'none';} else { 
+document.getElementById("breadcrumb").style.display = 'block'; } }
+dispbreadcrumbs();
+
+
+
+
+
+
+
+
+
+	function generateReplyHtml(replydata){
+var reply_content=replydata.content;
+var replier_identity=replydata.sender;
+var reply_id=replydata.reply_id;
+var likecount=replydata.like_count
+replyHtml=''
+replyHtml+=`
+			
+			<div id="reply_${reply_id}">
+			<div class=" uk-margin-small-bottom uk-animation-slide-left">
+						<div class="uk-grid uk-grid-collapse uk-margin-remove uk-padding-remove"  style="font-size: 1.2em;height:auto;" uk-grid >
+						<div class="uk-width-auto"> <img class="uk-border-circle" style="border-radius: 50px;background-size: cover;aspect-ratio: 1;"  width="20" height="20" src="{{ RES }}image/pp.jpg" alt="Avatar"> &nbsp;${replier_identity}</div>
+						<div class="uk-width-expand" ></div>
+						<div class="uk-width-auto uk-align-right uk-margin-remove"> 
+							
+
+							<link rel="stylesheet" type="text/css" href="{{RES}}likebutton.css">					
+
+
+						<div class="uk-grid uk-grid-collapse" uk-grid>
+						<div class="flip-icon uk-margin-small-right" onclick="likebuttonclick(this,'${reply_id}')" >
+							<div class="flip-icon-front" style="position:relative;">
+								<center>
+									<span class="like_count_${reply_id}">${likecount}</span>
+
+									<span class="buttonid" uk-icon="icon: heart;ratio:1.2;"></span>
+
+								</center>
+							</div>
+							<div class="flip-icon-back" style="position: absolute;top:0;width: 100%;">
+								&#128540;
+							</div>
+						</div>		
+						
+						<script type="text/javascript" src="{{RES}}likebutton.js">
+						</scr`+`ipt><span class="uk-margin-small-right" uk-icon="icon: trash;ratio:1.2;" onClick='delete_reply(${reply_id})'></span>
+
+
+
+						</div></div>
+					</div>
+					
+					<div class="uk-width-expand uk-text-left uk-margin-left">${reply_content}</div>
+				</div>
+				</div>
+
+`
+return replyHtml;
+}
+	function add_reply(){
+	document.getElementById('loader').style.display='block'
+
+    var currentZig= $(this).attr('currentZig');
+	
+    var opinion_box=document.querySelector('#opinion_box');
+    var opinion=opinion_box.value;
+    var replySection=document.querySelector('#reply-section');
+
+    var csrftoken = getCookie('csrftoken'); 
+    var data = {
+        'form_function': 'user_opinion',
+        'current_zig':'{{zig.id}}',
+        'opinion':opinion
+    };
+
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken 
+        },
+        url: "{% url 'homepage' %}",
+        method: 'POST',
+        data: data,
+        success: function(response) {
+            
+            if(response!=''){
+			document.getElementById('loader').style.display='none'
+
+            var reply_html = generateReplyHtml(response);
+            $('#reply-section').prepend(reply_html);
+            opinion_box.value=''
+            $('#reply-section').scrollTop(0);
+            }
+        },
+        error: function(xhr, textStatus, error) {
+            console.log(xhr.statusText);
+        }
+    });
+};
+async function shareImage(ImageUrl) {
+	imageUrl=ImageUrl
+	const blob = await (await fetch(imageUrl)).blob();
+	console.log(imageUrl)
+  const filesArray = [
+    new File([blob], 'navy_blue.png', {
+      type: blob.type,
+      lastModified: Date.now(),
+    }),
+  ]
+  const shareData = {
+    title: 'Check this out!',
+    files: filesArray,
+    url: document.location.origin,
+  }
+  if (navigator.canShare && navigator.canShare(shareData)) {
+    await navigator.share(shareData)
+  }
+}
+
+function delete_reply(reply_id){
+document.getElementById('loader').style.display='block'
+
+var id=reply_id
+var csrftoken = getCookie('csrftoken'); 
+var data = {
+	'form_function': 'delete_reply',
+	'reply_id':id
+};
+
+$.ajax({
+	headers: {
+		'X-CSRFToken': csrftoken 
+	},
+	url: "{% url 'homepage' %}",
+	method: 'POST',
+	data: data,
+	success: function(response) {
+		document.getElementById('loader').style.display='none'
+
+		document.getElementById('reply_'+id).innerHTML=''
+	},
+	error: function(xhr, textStatus, error) {
+		console.log(xhr.statusText);
+	}
+});
+};
+function zigreport(x,category,id) {
+				var y = x.classList;
+				UIkit.notification("<span uk-icon='icon: check'></span>User Reported", { pos: 'bottom-center' })
+				console.log(id)
+				// document.getElementById('loader').style.display='block'
+				var csrftoken = getCookie('csrftoken');
+				var formData=new FormData()
+				formData.append('form_function' ,'report')
+				formData.append('category' ,category)
+				if(category=='zig'){
+					formData.append('zig' ,id)
+				}
+				else if(category=='reply'){
+					formData.append('reply' ,id)
+				}
+
+				$.ajax({
+					headers: {
+						'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+					},
+					url: "{% url 'homepage' %}",
+					method: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function (response) {
+						// console.log('success')
+						// document.getElementById('loader').style.display='none'
+
+						// window.location = "/{{request.user.userdata.userID}}";
+
+					},
+					error: function (xhr, textStatus, error) {
+						console.log(xhr.statusText);
+					}
+				});
+
+			}
+			function fetch_image_{{zig.id}}(){
+	var csrftoken = getCookie('csrftoken');
+
+	$.ajax({
+		headers: {
+                        'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+                    },
+		url: '{% url "share" %}',
+		data:{
+			'form_function':'shareImage',
+			'zig':'{{zig.id}}',
+		},
+		method: 'POST',
+		success: function (response) {
+			var imageUrl = 'data:image/png;base64,' + response.image;
+			obj=document.getElementById('image_container_{{zig.id}}')
+			obj.src=imageUrl
+		},
+		error: function (error) {
+			console.error('Error fetching image:', error);
+		}
+	});
+}
+function getCookie(name) {
+var cookieValue = null;
+if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i].trim();
+    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+    }
+    }
+}
+return cookieValue;
+}
+</script>
+
+</body></html>	

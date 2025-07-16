@@ -1,0 +1,153 @@
+
+
+	{% load static %}
+{% get_static_prefix as RES %}
+	<title>Jynx</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- UIkit JS -->
+
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+
+
+
+
+<style>
+
+	.liked svg path {
+				fill: #ff0000;
+
+			}
+		.slick-prev:before,
+.slick-next:before {
+  color: #101010!important;
+}
+.splide__slide img {
+  width: 100%;
+  height: auto;
+}
+</style>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/splidejs/4.1.4/js/splide.min.js" integrity="sha512-4TcjHXQMLM7Y6eqfiasrsnRCc8D/unDeY1UGKGgfwyLUCTsHYMxF7/UHayjItKQKIoP6TTQ6AMamb9w2GMAvNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/splidejs/4.1.4/css/splide.min.css" integrity="sha512-KhFXpe+VJEu5HYbJyKQs9VvwGB+jQepqb4ZnlhUF/jQGxYJcjdxOTf6cr445hOc791FFLs18DKVpfrQnONOB1g==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+
+
+
+
+<div id="sharemodalno_{{ idd }}"  class="uk-padding-small " uk-modal>
+    <div class="uk-modal-dialog  uk-padding-remove">
+ <button class=" uk-position-top-left  uk-modal-close" style="left: 10px;top: 10px;"  type="button" uk-close></button>
+    	<div class=" uk-modal-body  uk-padding-remove">
+
+
+
+<center>
+ <h2 class="uk-modal-title">Share</h2>
+ <hr class="uk-margin-small">
+
+		<section class="uk-width-5-6" aria-label="Beautiful Images" id="image_section">
+			<img src='' id="image_container_{{idd}}" alt="no image">
+		</section>
+ 		<!-- <section id="slideshowno_{{ idd }}" class="splide uk-width-5-6" aria-label="Beautiful Images"> -->
+  <!-- <div class="splide__track">
+		<ul class="splide__list" id="img_slideshow" >
+			<li class="splide__slide">
+				<img src="" id="image_container" alt="no image">
+			</li>
+
+		</ul> -->
+  <!-- </div> -->
+<!-- </section> -->
+
+
+
+
+ <center>
+	     <div class=" uk-margin-small uk-grid uk-grid-small" style="margin:10px;width: 90%;">
+
+{% include 'sharebutton.html' with ZIGURL=request.get_full_path %}
+<a class="uk-button uk-button-default" onclick="shareImage(document.getElementById('image_container_{{zig.id}}').src)" style="border-radius: 50px;padding-right: 15px;"><span class="uk-icon uk-margin-remove uk-text-middle" uk-icon="icon:image;ratio:1.12;" ></span>Share Image</a>
+</div></center>
+
+<!--  <div class="uk-grid uk-grid-small uk-margin-small-left uk-grid-match uk-width-expand uk-padding-small uk-margin-remove" style="background-color:transparent;padding-top: 0px;">
+           <div class="uk-margin-small-right uk-display-inline  uk-width-expand"  style="border: 1px solid lightslategrey;padding: 10px;border-radius: 20px;">http://192.168.29.139:8000/zig/4/ &nbsp;</div> <button class="uk-width-auto uk-button uk-flex-middle uk-button-default " style="padding-right:15px;border-radius: 10px;">Copy</button>
+        </div>
+
+	 <div class="uk-flex-middle uk-align-center uk-grid uk-grid-small" style="height:auto;margin-bottom: 5px;margin-top: 5px;">
+
+	 		<a href="#" uk-icon="icon: instagram; ratio:1.5;"></a>
+				<a href="#" uk-icon="icon: whatsapp; ratio:1.5;"></a>
+				<a href="#" uk-icon="icon: twitter; ratio:1.5;"></a>
+
+				<a href="#" uk-icon="icon: reddit; ratio:1.5;"></a>
+				<a href="#" uk-icon="icon:  linkedin; ratio:1.5;"></a>
+				<a href="#" uk-icon="icon: facebook; ratio:1.5;"></a>
+
+	 </div>
+         -->
+
+
+
+</center>
+</div>
+    </div>
+</div>
+<script type="text/javascript">
+		// function update_img(img_src){
+		// 	console.log(img_src)
+		// 	var canvas = document.getElementById("image_container");
+		// 	var ctx = canvas.getContext("2d");
+
+		// 	var image = new Image();
+		// 	image.onload = function() {
+		// 	ctx.drawImage(image, 0, 0);
+		// 	};
+		// 	image.src = img_src
+		// }
+       	function fullscreenimg(element){
+            element.requestFullscreen()
+
+
+
+
+        $(element).dblclick(function(event){
+            document.exitFullscreen();
+            });
+        }
+
+
+//          document.addEventListener( 'DOMContentLoaded', function () {
+//     new Splide( '#slideshowno_{{ idd }}' ).mount();
+//   } );
+
+
+
+
+
+
+function showsharemodal_{{ idd }}(x){
+	UIkit.modal('#sharemodalno_{{idd}}').show();
+}
+
+function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+ </script>
+

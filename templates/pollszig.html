@@ -1,0 +1,179 @@
+{% load static %}
+{% get_static_prefix as RES %}
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<style>
+    .focusedoption{border: 2px solid  #E5E4E2;border-radius: 10px;}
+
+
+
+
+</style>
+<center> 
+  
+ <div class="uk-grid uk-child-width-expand uk-flex-row-reverse uk-width-3-4@m blurred ">
+        <div class="uk-animation-fade uk-width-auto uk-margin-small   uk-visible@m">
+            <ul class="uk-iconnav uk-iconnav-vertical uk-height-1-1  uk-list-large">
+                <li><a href="#" uk-icon="icon: instagram; ratio:1.5;"></a></li>
+                <li><a href="#" uk-icon="icon: whatsapp; ratio:1.5;"></a></li>
+                <li><a href="#" uk-icon="icon: twitter; ratio:1.5;"></a></li>
+                <li><a href="#"><span uk-icon="icon: more-vertical; ratio:1.5;"></span> (5)</a></li>
+            </ul>
+        </div>
+        <div class="uk-card uk-card-default uk-width-expand uk-animation-fade uk-padding-remove uk-margin-small-bottom"
+            style="border-radius:30px;">
+
+            <div class="uk-width-auto  uk-hidden@m" style="padding-left: 10px;">  
+            <a class="uk-margin-small-right uk-margin-remove-bottom uk-position-top-right" style="padding: 7px 7px 0px 0px" uk-icon="icon: social;ratio:1.5;" onclick="showsharemodal(this);"></a>
+        </div>
+
+           <div class="uk-card-header uk-margin-small-bottom uk-padding " style="padding: 15px 0px 15px 30px;">
+                
+                    
+                <div class="uk-align-left">
+                <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto uk-padding-remove-horizontal">
+                        
+                            <div style="width: 40px; height: 40px; border-radius: 50px; overflow: hidden;">
+                                <img style="width: 100%; height: 100%; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+                            </div>
+                      
+                        
+                    </div>
+                    <div class="uk-width-expand">
+                      
+
+
+
+                        
+                            <h3 class="uk-card-title uk-margin-remove-bottom  uk-text-left">Anonymous</h3>
+                            <p class="uk-text-meta uk-margin-remove-top  uk-text-left"> <time
+                                datetime={{date}}>8 / 12 / 23</time></p>
+                      
+                        
+                        
+                        
+                    </div>
+                
+                </div>
+            </div>
+            </div>
+
+            <div class="uk-card-body uk-margin-small-top uk-padding-small">
+                <div>
+                <div style="background-color:transparent;" class="uk-width-expand   "  style="height:auto">
+                    
+                    <img src="https://picsum.photos/400/300" id="zigimage"  ondblclick="fullscreenimg(this)"   class="uk-width-auto uk-height-max-large" uk-tooltip="title:double click to toggle;pos: bottom-right" alt="zig Image">
+                
+                    
+                </div>
+            </div>
+
+
+
+
+                <h3 class="uk-card-title uk-margin-remove uk-align-center">How is this image?</h3>
+                <p class="uk-text-meta uk-margin-remove-top "><time datetime={{zig.date}}>8 / 12 / 23</time></p>
+
+                <!-- comment -->
+
+
+
+
+
+                <p class="uk-text-lead uk-margin-small  uk-text-left">Opnions</p>
+              
+
+
+                        
+                        <div class="uk-margin uk-text-left">
+                            
+                           
+                                <div class="uk-padding-small focusedoption" >
+                                <label><input class="uk-radio" type="radio" name="radio1" > Option 01 <progress id="js-progressbar" class="uk-progress  uk-text-left" style="margin-top: 10px;margin-bottom: 2px;" value="20" max="100"></progress>
+                                    <div class="uk-width-expand uk-margin-small-bottom"><p class="uk-text-meta uk-padding-remove uk-margin-remove uk-align-right ">10%</p></div></label></div><br>
+
+
+
+                                <div class="uk-padding-small focusedoption">
+                                <label><input class="uk-radio" type="radio" name="radio1"> Option 01 <progress id="js-progressbar" class="uk-progress  uk-text-left" style="margin-top: 10px;margin-bottom: 2px;" value="20" max="100"></progress>
+                                    <div class="uk-width-expand uk-margin-small-bottom"><p class="uk-text-meta uk-padding-remove uk-margin-remove uk-align-right ">10%</p></div></label></div><br>
+
+
+
+                                <div class="uk-padding-small focusedoption">
+                                <label><input class="uk-radio" type="radio" name="radio1"> Option 01 <progress id="js-progressbar" class="uk-progress  uk-text-left" style="margin-top: 10px;margin-bottom: 2px;" value="20" max="100"></progress>
+                                    <div class="uk-width-expand uk-margin-small-bottom"><p class="uk-text-meta uk-padding-remove uk-margin-remove uk-align-right ">10%</p></div></label></div><br>
+
+
+
+                                <div class="uk-padding-small focusedoption">
+                                <label><input class="uk-radio" type="radio" name="radio1"> Option 01 <progress id="js-progressbar" class="uk-progress  uk-text-left" style="margin-top: 10px;margin-bottom: 2px;" value="20" max="100"></progress>
+                                    <div class="uk-width-expand uk-margin-small-bottom"><p class="uk-text-meta uk-padding-remove uk-margin-remove uk-align-right ">10%</p></div></label></div><br>
+
+
+
+                             
+                         
+                        </div>
+
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <div class="uk-card-footer">
+                <center>
+
+
+                <a style="color: #231F20;" href="#reportconfirmationmodal"
+                    class="uk-width-auto uk-position-bottom-right uk-margin-bottom uk-margin-right"
+                    uk-icon="icon: warning;ratio:1.5;" uk-toggle></a>
+
+
+                <div id="reportconfirmationmodal" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                        <h2 class="uk-modal-title">Are you sure you want to report this user</h2>
+
+                        <p class="uk-text-right">
+                            <button class="uk-button uk-button-danger uk-modal-close" type="button">Cancel</button>
+                            <button class="uk-button uk-button-primary"
+                                onclick="zigreport(this);UIkit.modal(reportconfirmationmodal).hide();"
+                                type="button">Yes</button>
+                        </p>
+                    </div>
+                </div>
+           
+
+                    <button class="uk-button uk-button-secondary" href="#modal" onclick="openmodal('{{zig.id}}')">See More</button>
+
+                </center>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+
+    function fullscreenimg(element){
+            element.requestFullscreen()
+
+            
+
+
+        $(element).dblclick(function(event){
+            document.exitFullscreen();
+            });
+        }
+
+    </script>
+</center>

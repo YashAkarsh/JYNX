@@ -1,0 +1,39 @@
+{% load static %}
+{% get_static_prefix as RES %}
+
+<link rel="stylesheet" type="text/css" href="{{RES}}likebutton.css">
+
+<div class="uk-grid uk-grid-collapse" uk-grid>
+	<div class="flip-icon uk-margin-small-right">
+		{% if request.user in like_senders %}
+		<div class="flip-icon-inner liked" onclick="likebuttonclick(this,'{{reply_id}}')">
+			<div class="flip-icon-front" style="position:relative;">
+
+				<span class="like_count_{{reply_id}}">{{likecount}}</span>
+
+				<span class="" uk-icon="icon: heart;ratio:1.2;"></span>
+
+			</div>
+			<div class="flip-icon-back" style="position: absolute;top:0;width: 100%;">
+				&#128540;
+			</div>
+		</div>
+		{% else %}
+		<div class="flip-icon-inner" onclick="likebuttonclick(this,'{{reply_id}}')">
+			<div class="flip-icon-front" style="position:relative;">
+				<center>
+					<span class="like_count_{{reply_id}}">{{likecount}}</span>
+
+					<span class="buttonid" uk-icon="icon: heart;ratio:1.2;"></span>
+
+				</center>
+			</div>
+			<div class="flip-icon-back" style="position: absolute;top:0;width: 100%;">
+				&#128540;
+			</div>
+		</div>
+		{% endif %}
+
+	</div>
+
+	<script type="text/javascript" src="{{RES}}likebutton.js"></script>

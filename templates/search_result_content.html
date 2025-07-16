@@ -1,0 +1,19 @@
+{% load static %}
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<li class="uk-grid uk-grid-collapse uk-margin-remove-top uk-grid-match uk-width-expand " id="{{user.id}}" style="height:auto;color: #333333;">
+
+    <a class="uk-icon uk-icon-image uk-border-circle uk-margin-small-top"
+      style="background-image: url({{user.userdata.profilePic.url}});border-radius: 50px;background-size: cover;aspect-ratio: 1;scale: 1.5;margin-left: 5%;"
+      alt="Avatar" ></a>
+
+
+    <a onclick="search_clicked('{{user.id}}')" href="/{{user.userdata.userID|urlencode}}"
+      class="uk-text-break uk-width-expand uk-margin-small-left uk-text-medium" style="text-decoration: none;color: #333333;">&nbsp;{{user.userdata.userID}}
+      <div class="uk-width-expand"></div>
+      
+
+    </a>
+    <a class="uk-width-auto uk-align-right uk-margin-small-right" style="height: 2px;color: #333333;"
+            uk-icon="icon: close;ratio:1" onclick="delete_history('{{user.id}}')"></a>
+
+  </li>

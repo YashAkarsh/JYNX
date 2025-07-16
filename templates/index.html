@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		{% load static %}
+		{% get_static_prefix as RES %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+		  <title>Jynx</title>
+
+  		  <meta name="description" content="Jynx.in,A place for people to be social, casually. Cause it's always a breeze to share the zigs in your life with us on this Social Media made just for you." >
+  		  <meta name="keywords" content="Jynx.in , Anonymous, Social, Zigs, Social Media, Jynx" >
+  		   <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+		<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+		<!-- UIkit JS -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+		<style>
+			.blurred{
+         -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+
+    }
+		</style>
+
+	</head>
+
+	<body style="background-color: #FFFFFE;">
+    <div>
+    {% include 'nonsticknav.html' %}
+</div>
+  	<span class="uk-position-fixed uk-position-top-center uk-margin-small-bottom uk-margin-small-right uk-padding-small" style="font-weight: bolder;z-index: 99999;display:none;margin-top:11vh" uk-spinner="ratio: 1.2" id="loader"></span>
+
+
+		<!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+		<div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+			<div class="uk-offcanvas-bar">
+				{% include "sidenav.html" with notifications=notifications %}
+			</div>
+		</div>
+
+        <div class="uk-width-1-1 ">
+
+        </div>
+		<!-- user cards -->
+
+			<div id="zig_container"
+				class=" zig_container uk-child-width-3-4 uk-margin-small-left uk-grid-column-small uk-grid-row-small uk-flex-row-reverse  uk-position-relative"
+				uk-grid="masonry: true" style="padding-top:80px;">
+
+
+				<div  class="uk-width-3-4@l uk-width-3-4@m  uk-padding-remove  "   >
+					<!-- add more variables according to needs -->
+
+					<div id="zigpanel" style="padding-left:20px;"  >
+
+
+
+
+						<center>
+							<div class="uk-grid uk-child-width-expand uk-flex-row-reverse uk-width-3-4@m uk-margin-small-bottom uk-margin-small-top uk-flex-center">
+
+								<div class="uk-width-expand uk-animation-slide-top uk-padding-remove uk-margin-small-bottom" style="border-radius:50px;" >
+									<div class="uk-card-body uk-margin-small-top uk-padding-small " >
+										<div class="uk-padding-large uk-width-expand" style="border: dashed 2px #E5E4E2;border-radius: 20px;">
+											<a style="color: #899499;" href="#createzigmodal"
+												uk-toggle><span class="uk-icon"
+													uk-icon="icon: plus-circle; ratio: 4;"></span></a>
+
+											<div id="createzigmodal" uk-modal>
+												<div class="uk-modal-dialog">
+
+													<button class="uk-modal-close-default" type="button"
+														uk-close></button>
+
+													<div class="uk-modal-header">
+														<h2 class="uk-modal-title">New Zig</h2>
+													</div>
+
+													<div class="uk-modal-body" uk-overflow-auto>
+
+														{% include 'createzigform.html' %}
+
+													</div>
+
+													<div class="uk-modal-footer uk-text-right">
+														<button class="uk-button uk-button-default uk-modal-close"
+															type="button">Cancel</button>
+														<button class="uk-button uk-button-primary uk-modal-close"
+															type="button" onclick="createZig()">Create</button>
+													</div>
+
+												</div>
+											</div>
+											<br>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</center>
+						<!-- loop startt (one center tag start to end is one card) -->
+
+
+						<center>
+
+							<!-- {% include "adzig.html" %} -->
+							
+
+							<div class="uk-width-5-6 uk-text-justify">
+
+								<!-- FRIENDLIST MBILE TO PUT AFTER 3 ZIG START -->
+								<div class="uk-hidden@m">
+							  	<p class="uk-text-large">Users you might know:</p>
+
+							  	<ul class="uk-list uk-list-striped uk-overflow-auto uk-width-expand " style="text-align: left;max-height:200px;" id="frndlist">
+									{% for user in users  %}
+									<li><span class="uk-icon uk-icon-image uk-border-circle" style="background-image: url('{{user.userdata.profilePic.url}}'); background-size: cover; display: inline-block; width: 20px; height: 20px;"></span><a href="/{{user.userdata.userID|urlencode}}">&nbsp;{{user.userdata.Username}} ~ {{user.userdata.userID}}</a></li>
+									{% endfor %}
+								</ul></div>
+								<!-- IT END HERE -->
+								</div>
+
+								{% if request.user.userdata.friends.count == 0 %}
+							  	<p class="uk-text-large">While you connect with your friends, here are some zigs you might find interesting!</p>
+							  
+								<hr class="uk-divider-icon"></hr>
+
+							{% endif %}
+							{% for other_zig in zigs %}
+
+								{% if other_zig.zig.type == "song_type" %}
+									{% if not other_zig.zig.playlist %}
+										{% include "spotifyembed.html" with zig=other_zig.zig id=other_zig.zig.track_url replies=other_zig.replies %}
+									{% else %}
+										{% include "spotifyembed.html" with zig=other_zig.zig id=other_zig.zig.playlist_url replies=other_zig.replies %}
+									{% endif %}
+								{% endif %}
+								{% if other_zig.zig.type == "yt_type" %}
+									{% include "youtubeembedzig.html" with zig=other_zig.zig id=other_zig.zig.yt_url replies=other_zig.replies %}
+								{% endif %}
+								{% if other_zig.zig.type == "text_type" %}
+									{% if other_zig.zig.image %}
+										{% include "previewcardImage.html" with zig=other_zig.zig replies=other_zig.replies %}
+									{% else %}
+										{% include "previewcard.html" with zig=other_zig.zig replies=other_zig.replies %}
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						</center>
+
+						<!-- loop end -->
+
+					</div>
+
+				</div>
+
+				<div class="uk-width-1-4 uk-margin-small-top uk-position-fixed  uk-visible@m  " style="left:5px;" >
+
+					<div class="uk-card uk-card-default uk-card-body uk-width-expand " >
+									<center>
+									<div class="uk-width-auto">
+										<img class="uk-border-circle" style="width: 50px; height: 50px; object-fit: cover;" src="{{profile_pic_url}}" alt="Avatar">
+									</div>
+
+									<div class="uk-width-expand">
+										<h3 class="uk-card-title uk-margin-remove-bottom " style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{request.user.userdata.Username}}</h3>
+										<p class="uk-text-meta uk-margin-remove-top"><a href="/{{request.user.userdata.userID}}" class="uk-link">{{request.user.userdata.userID}} </a>,  <time datetime="{{request.user.userdata.created_on}}">{{request.user.userdata.created_on}}</time></p>
+									</div>
+								</center>
+
+										<!--   <hr class="uk-divider-icon">
+
+
+										<div style="border: double 2px #E5E4E2;" class="uk-padding-small">
+											<div>Life is but a playground of your thoughts...</div>
+											<div style="text-align: right;">~Splinkered</div>
+										</div>  -->
+
+					</div>
+					<ul class="uk-list uk-list-striped uk-overflow-auto uk-width-expand " style="text-align: left;max-height:45vh;" id="frndlist">
+												{% for user in users  %}
+																			<li><span class="uk-icon uk-icon-image uk-border-circle" style="background-image: url('{{user.userdata.profilePic.url}}'); background-size: cover; display: inline-block; width: 20px; height: 20px"></span><a href="/{{user.userdata.userID|urlencode}}">&nbsp;{{user.userdata.Username}} ~ {{user.userdata.userID}}</a></li>
+																									{% endfor %}
+																														</ul>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div id="cardbx" class=" uk-animation-slide-top uk-modal uk-modal-full"
+			style="background-color: white;z-index: 9999;" uk-modal>
+		    <div class="uk-modal-dialog uk-overflow-hidden" style="padding:0px; margin:0 auto; width:100%; height:100%;" >
+			<a class="uk-position-top-right" onclick="clsframe()"><span uk-icon="icon: close;ratio:2"></span></a>
+<div class=" " style="padding:0px; margin:0 auto; width:100%; height:100%;overflow:visible;" >
+			<iframe class=" uk-width-expand  commentframe" id="cardframe"  style=" background:url('{{RES}}loader.gif') center center no-repeat;padding:0px; margin:0 auto; width:100%; height:100%">
+			</iframe>
+</div>
+			<a onclick="clsframe()"
+				style="text-decoration: none;color:black;background-color: none;position: absolute;top: 3%;right: 5%;">
+			</a>
+			</div>
+		</div>
+
+
+
+
+	<script>
+
+
+
+		function createZig(){
+			document.getElementById('loader').style.display='block'
+			var csrftoken = getCookie('csrftoken');
+			var title=document.getElementById('title').value
+			var zig_mode=document.getElementById('mode').value
+			var zig_identity=document.getElementById('identity').checked
+			var hide_replies=document.getElementById('hide_replies').checked
+			var track_url=document.getElementById('track_url').value
+			var playlist_url=document.getElementById('playlist_url').value
+			var yt_url=document.getElementById('yt_url').value
+			var zig_type = UIkit.tab(document.querySelector('#zig_types')).index();
+            if(title==''){
+    			document.getElementById('loader').style.display='none'
+    			console.log('empty title')
+				UIkit.notification({message: 'user id already exists try another one',  pos: 'top-center'})
+
+    			}
+			else{
+				if(zig_type==1 && yt_url==''){
+					zig_type=0
+				}
+				else if(zig_type==2 && track_url=='' && playlist_url==''){
+					zig_type=0
+				}
+
+			var formData=new FormData()
+			formData.append('title' ,title)
+			formData.append('zig_mode' ,zig_mode)
+			formData.append('identity' ,zig_identity)
+			formData.append('hide_replies' ,hide_replies)
+			formData.append('zig_type' ,zig_type)
+			formData.append('yt_url' ,yt_url)
+			formData.append('track_url' ,track_url)
+			formData.append('playlist_url' ,playlist_url)
+
+			try{
+				formData.append('zig_image',zig_image.files[0])
+			}
+			catch(err){
+				console.log('no image')
+			}
+			$.ajax({
+				headers: {
+					'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+				},
+				url: "{% url 'createZig' %}",
+				method: 'POST',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					// console.log('success')
+					document.getElementById('loader').style.display='none'
+
+					window.location = "/{{request.user.userdata.userID|escapejs}}";
+
+				},
+				error: function (xhr, textStatus, error) {
+					console.log(xhr.statusText);
+				}
+			});
+		}}
+			function zigreport(x,category,zig_id) {
+				var y = x.classList;
+				UIkit.notification("<span uk-icon='icon: check'></span>User Reported", { pos: 'bottom-center' })
+				console.log(zig_id)
+				document.getElementById('loader').style.display='block'
+				var csrftoken = getCookie('csrftoken');
+				var formData=new FormData()
+				formData.append('form_function' ,'report')
+				formData.append('category' ,category)
+				formData.append('zig' ,zig_id)
+
+
+				$.ajax({
+					headers: {
+						'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+					},
+					url: "{% url 'homepage' %}",
+					method: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function (response) {
+						// console.log('success')
+						document.getElementById('loader').style.display='none'
+
+						// window.location = "/{{request.user.userdata.userID}}";
+
+					},
+					error: function (xhr, textStatus, error) {
+						console.log(xhr.statusText);
+					}
+				});
+
+			}
+
+
+
+
+			$(document).ready(function () {
+				$(window).resize(function () {
+					var bodyheight = ($(this).height()) * 0.85;
+					$("#zigpanel").height(bodyheight);
+				}).resize();
+			});
+			$(document).ready(function () {
+					$(window).resize(function () {
+						var bodyheight = ($(this).height()) * 0.45;
+						$("#frndlist").height(bodyheight);
+					}).resize();
+        	});
+
+
+
+
+			function openmodal(id) {
+				UIkit.modal('#cardbx').show()
+				$('#cardframe').attr("src", "{% url 'homepage' %}zig/" + id + "/");
+
+				//document.getElementById('cmtbx').src = "{% url 'homepage' %}zig/2/";
+				//document.getElementById('cardbx').style.display = "block";
+
+			}
+			function clsframe() {
+				//document.getElementById('cardbx').style.display = "none";
+				UIkit.modal('#cardbx').hide()
+			}
+
+			pxx = 0
+			pyy = 0
+
+			function disableScroll() {
+				scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+				pyy = scrollTop
+				scrollTop = 0
+				scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+				pxx = scrollLeft
+
+				window.scrollTo(scrollLeft, scrollTop);
+				// if any scroll is attempted,
+				// set this to the previous value
+				window.onscroll = function () {
+					window.scrollTo(scrollLeft, scrollTop);
+				};
+			}
+
+			function enableScroll(px, py) {
+
+				window.scrollTo(px, py);
+				window.onscroll = function () { };
+			}
+
+
+			$(document).ready(function () {
+				// Variables to control infinite scrolling
+				var loading = false; // To prevent multiple requests while loading
+
+				var currentPage = 2; // Track the current page number
+				var itemsPerPage = 2; // Number of items to load per page
+				const delayedLoadMoreZigs = _.debounce(loadMoreZigs, 150);
+				window.onscroll = function () {
+					console.log('scroll')
+					if ((window.innerHeight + Math.ceil(window.pageYOffset)) >= document.body.offsetHeight ) {
+
+
+						delayedLoadMoreZigs();
+					}
+
+				};
+
+				function loadMoreZigs() {
+
+					if (!loading) {
+						laoding = true;
+                        document.getElementById('loader').style.display='block'
+						// Making an AJAX request to the server to fetch the next page of zigs
+						var formFunction = 'load_zigs';
+						var csrftoken = getCookie('csrftoken');
+						console.log(currentPage)
+
+						$.ajax({
+							headers: {
+								'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+							},
+							url: '/',
+							method: 'POST',
+							data: {
+								page: currentPage,
+								items_per_page: itemsPerPage,
+								form_function: formFunction
+							},
+							success: function (response) {
+								// Generate and append new zigs
+								if (Array.isArray(response)) {
+								document.getElementById('loader').style.display='none'
+
+									response.forEach(function (zigHtml) {
+										$('#zigpanel').append(zigHtml);
+									});
+									currentPage++;
+								}
+								else {
+									console.log('not array')
+								}
+							},
+							error: function (xhr, textStatus, error) {
+								console.log(xhr.statusText);
+							}
+						});
+					}
+				}
+			})
+
+			function iframe_reload(iframe){
+				console.log('reloading')
+				console.log(iframe)
+				var iframe=document.getElementsByClassName(iframe)
+				// document.getElementsByClassName(iframe).contentDocument.location.reload(true)
+				iframe.src = iframe.src+='';
+
+
+			}
+
+			async function shareImage(ImageUrl) {
+				imageUrl=ImageUrl
+				const blob = await (await fetch(imageUrl)).blob();
+				console.log(imageUrl)
+			const filesArray = [
+				new File([blob], 'navy_blue.png', {
+				type: blob.type,
+				lastModified: Date.now(),
+				}),
+			]
+			const shareData = {
+				// title: 'Check this out!',
+				files: filesArray,
+
+			}
+			if (navigator.canShare && navigator.canShare(shareData)) {
+				await navigator.share(shareData)
+			}
+			}
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = cookies[i].trim();
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+
+		</script>
+
+
+	</body>
+
+</html>

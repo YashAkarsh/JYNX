@@ -1,0 +1,147 @@
+{% load static %}
+
+
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+
+
+
+<div class="uk-animation-fade uk-padding-small">
+
+
+    <div class="uk-grid uk-grid-small uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match">
+
+
+        <div class="uk-section uk-section-muted uk-width-1-1  " style="padding-bottom:15px;padding-top: 15px;">
+
+                <div class=" uk-grid uk-grid-small uk-grid-match uk-child-width-1-1@s uk-child-width-1-3@m  uk-margin-small-right"  uk-grid>
+                    <center>
+                        <div class="uk-card uk-card-default uk-padding-small uk-flex-middle"  style="height:100%;border-radius: 10px;"  >
+                            <div style="  height: 100%;display: flex;align-items: center; justify-content: center;">
+                            <div  style="height: auto;" >
+                              
+                                <br>
+                                <div class="uk-width-small uk-height-small uk-margin-small-bottom" style=" background-image: url( {{user_1.user.userdata.profilePic.url}} );  background-size:cover; background-position:center;  border-radius:50%;" >
+                                </div>
+                                ~{{user_1.user.userdata.userID}} <br>
+                                {{user_1.user.userdata.created_on}}
+
+                                 <a class="uk-button uk-button-default  uk-width-expand " href="/{{user_1.user.userdata.userID|urlencode}}">See More</a>
+                            
+                            </div>
+                           </div>
+                        </div>
+
+                    </center>
+		    
+
+                    <div class="uk-width-expand" > 
+
+                          <div class="slider">
+				<div class="slides">
+
+                            {% for zig in user_1.zigs %}
+                                <div>
+                                    
+                                    {% include "myzigscard.html" with date=zig.date title=zig.title zig=zig replies=zig.replies.all %}
+                                </div>
+                          
+                            {% endfor %}
+				</div>
+
+                          </div>
+                        </div>  
+                        
+
+                    </div>
+              
+       
+        </div>
+        </div>
+
+        <!-- mid zigs-1 -->
+<div class="uk-grid uk-grid-small uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match">
+        {% for pub_zig in mid_zig_1 %}
+            <center class="uk-margin-remove" style="height: 100%;">
+                {% include "myzigscard.html" with date=pub_zig.zig.date title=pub_zig.zig.title zig=pub_zig.zig replies=pub_zig.replies.all %}
+            </center>
+       
+        {% endfor %}
+        </div>
+            
+
+        <!-- profile zigs-2 -->
+      
+         <div class="uk-section uk-section-muted uk-width-1-1  " style="padding-bottom:15px;padding-top: 15px;">
+<div class="uk-grid uk-grid-small uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match">
+                
+                   <center >
+                        <div class="uk-card uk-card-default uk-padding-small uk-flex-middle"  style="height:100%;border-radius: 10px;"  >
+                            <div style="  height: 100%;display: flex;align-items: center; justify-content: center;">
+                            <div  style="height: auto;" >
+                               
+                                <br>
+                                <div class="uk-width-small uk-height-small uk-margin-small-bottom" style=" background-image: url( {{user_2.user.userdata.profilePic.url}} );  background-size:cover; background-position:center;  border-radius:50%;">
+                                </div>
+                                ~{{user_2.user.userdata.userID}} <br>
+                                {{user_2.user.userdata.created_on}}
+
+                                 <a class="uk-button uk-button-default  uk-width-expand " href="/{{user_2.user.userdata.userID}}">See More</a>
+                            
+
+                            </div>                           </div>
+      
+
+                  </div>
+                    </center>
+
+
+                    <div class="uk-width-expand" > 
+
+                          <div class="slider">
+				<div class="slides">
+                              {% for zig in user_2.zigs %}
+                                         <div>
+                                            {% include "myzigscard.html" with date=zig.date title=zig.title zig=zig replies=zig.replies.all %}
+                                        </div>
+                                {% endfor %}
+				</div>
+                          </div>
+                        </div>  
+                       
+
+                    </div>
+</div>
+
+
+        <!-- mid zigs-2 -->
+       <div class="uk-grid uk-grid-small uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match uk-margin-small">
+            {% for pub_zig in mid_zig_2 %}
+                    <center class="uk-margin-remove">
+                        {% include "myzigscard.html" with date=pub_zig.zig.date title=pub_zig.zig.title zig=pub_zig.zig replies=pub_zig.replies.all %}
+                    </center>
+            {% endfor %}
+        </div>
+</div>
+   
+              
+
+<script type="text/javascript">
+
+       function fullscreenimg(element){
+            element.requestFullscreen()
+
+            
+
+
+        $(element).dblclick(function(event){
+            document.exitFullscreen();
+            });
+        }
+
+
+
+   
+  </script>

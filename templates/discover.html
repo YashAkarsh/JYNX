@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		{% load static %}
+		{% get_static_prefix as RES %}
+		<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+		  <title>Jynx - Discover</title>
+
+  		  <meta name="description" content="Discover new zigs and whats new in the crowd..." >
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+  		   <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- UIkit JS -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<link rel="stylesheet" type="text/css" href="{{ RES }}slideshoww.css">
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+	</head>
+
+	<body style="background-color: #FFFFFE;">
+		<span class="uk-position-fixed uk-position-top-center uk-margin-small-bottom uk-margin-small-right uk-padding-small" style="font-weight: bolder;z-index: 99999;display:none;margin-top:11vh" uk-spinner="ratio: 1.2" id="loader"></span>
+
+		{% include "topnav.html"%}
+
+
+		<!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+		<div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+			<div class="uk-offcanvas-bar">
+				{% include "sidenav.html" %}
+			</div>
+		</div>
+
+		<div class="uk-grid uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid >
+
+			<div class="uk-margin-small-top uk-overflow-auto" id="discovercontentpanel">
+
+				<center>
+				<h2 class="uk-padding-remove uk-margin-remove">Discover</h2>
+				</center>
+<center>
+
+				{% include "discover_content.html" with user_1=user_1 user_2=user_2 mid_zig_1=mid_zig_1 mid_zig_2=mid_zig_2 %}
+</center>
+				<!-- Profile Zigs-1 -->
+			</div>
+		</div>
+
+
+
+		<div id="cardbx" class=" uk-animation-slide-top uk-modal uk-modal-full" style="background-color: white;z-index: 9999;" uk-modal>
+		    <div class="uk-modal-dialog uk-overflow-hidden" style="padding:0px; margin:0 auto; width:100%; height:100%;" >
+			<a class="uk-position-top-right" onclick="clsframe()"><span uk-icon="icon: close;ratio:2"></span></a>
+<div class=" " style="padding:0px; margin:0 auto; width:100%; height:100%;overflow:visible;" >
+			<iframe class=" uk-width-expand  commentframe" id="cardframe"  style=" background:url('{{RES}}loader.gif') center center no-repeat;padding:0px; margin:0 auto; width:100%; height:100%">
+			</iframe>
+</div>
+			<a onclick="clsframe()"
+				style="text-decoration: none;color:black;background-color: none;position: absolute;top: 3%;right: 5%;">
+			</a>
+			</div>
+		</div>
+
+
+		<script>
+			$(document).ready(function () {
+				$(window).resize(function () {
+					var bodyheight = ($(this).height()) * 0.85;
+					$("#discovercontentpanel").height(bodyheight);
+				}).resize();
+			});
+
+			function openmodal(id) {
+				UIkit.modal('#cardbx').show()
+				$('#cardframe').attr("src", "{% url 'homepage' %}zig/" + id + "/");
+
+				//document.getElementById('cmtbx').src = "{% url 'homepage' %}zig/2/";
+				//document.getElementById('cardbx').style.display = "block";
+
+			}
+			function clsframe() {
+				//document.getElementById('cardbx').style.display = "none";
+				UIkit.modal('#cardbx').hide()
+			}
+
+			pxx = 0
+			pyy = 0
+
+			function disableScroll() {
+				scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+				pyy = scrollTop
+				scrollTop = 0
+				scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+				pxx = scrollLeft
+
+				window.scrollTo(scrollLeft, scrollTop);
+				// if any scroll is attempted,
+				// set this to the previous value
+				window.onscroll = function () {
+					window.scrollTo(scrollLeft, scrollTop);
+				};
+			}
+
+			function enableScroll(px, py) {
+
+				window.scrollTo(px, py);
+				window.onscroll = function () { };
+			}
+
+			$(document).ready(function () {
+				// Variables to control infinite scrolling
+				var loading = false; // To prevent multiple requests while loading
+
+				var currentPage = 2; // Track the current page number
+				var itemsPerPage = 2; // Number of items to load per page
+				const delayedLoadMoreDiscover = _.debounce(loadMoreDiscover, 200);
+				$('#discovercontentpanel').scroll(function () {
+					if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight -400) {
+						document.getElementById('loader').style.display='block'
+						delayedLoadMoreDiscover();
+					}
+
+				})
+			})
+			function loadMoreDiscover(){
+				// Making an AJAX request to the server to fetch the next page of zigs
+				var formFunction = 'load_discover';
+				var csrftoken = getCookie('csrftoken');
+
+				// console.log(currentPage)
+
+				$.ajax({
+					headers: {
+						'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+					},
+					url: '/discover/',
+					method: 'POST',
+					data: {
+						// page: currentPage,
+						form_function: formFunction
+					},
+					success: function (response) {
+						document.getElementById('loader').style.display='none'
+
+						var responseDiv = document.getElementById('discovercontentpanel');
+
+						$('#discovercontentpanel').append(response)
+
+
+
+					},
+					error: function (xhr, textStatus, error) {
+						console.log(xhr.statusText);
+					}
+				});
+			}
+
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i].trim();
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+		</script>
+
+
+
+
+	</body>
+
+</html>

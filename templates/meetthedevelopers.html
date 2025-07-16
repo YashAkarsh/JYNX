@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    {% load static %}
+    {% get_static_prefix as RES %}
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+    <title>Jynx - Meet the Developers</title>
+
+    <meta name="description" content="Get to know the ones who created this place for you...">
+    <meta name="keywords" content="Jynx, Anonymous, Social, Zigs, Indie">
+    <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+	<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- UIkit JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+  </head>
+
+  <body style="background-color: #FFFFFE;">
+
+    {% include "topnav.html"%}
+
+
+    <!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+    <div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+      <div class="uk-offcanvas-bar">
+        {% include "sidenav.html" with notifications=notifications %}
+      </div>
+    </div>
+
+
+
+
+
+
+    <div class="uk-section uk-section-muted ">
+      <div class="uk-container">
+        <center>
+          <h1 style="color: #555;">MEET THE TEAM</h1>
+        </center>
+
+        <div class="uk-grid-match uk-child-width-1-2@m" uk-grid>
+
+          <div>
+
+            <center class="uk-text-justify">
+
+              <span class="uk-icon " uk-icon="icon: user; ratio: 3;"></span>
+              <h2>Splinkered</h2>
+              Pragnesh, After playing the game Road Rash on his PC at home, he dreamed of being capable of making such
+              wonders himself. Starting with mastering C as his first language then going fourth with Java, Python, C++
+              and Javascript he soon mastered cross platform app development and web based frameworks. his first big
+              project was making an application for the elections of his school which was used by over 700 students. His
+              keen interest in music and science made him an individual with a creative mind, competant enough to design
+              the whole front-end of this website singlehandedly, as well coordinating with the backend he makes a great
+              web developer
+              <br><br>
+              contact: splinkered@gmail.com
+
+
+
+            </center>
+
+          </div>
+          <div>
+            <center class="uk-text-justify">
+              <span class="uk-icon " uk-icon="icon: user; ratio: 3;"></span>
+              <h2>Yash Akarsh</h2>
+              <!-- Being down to earth, always focused in the moment, on creation of Zera AI which has over four thousand active users, this is his Second big project, his mastery in python and its frameworks made it possible for this project's completion. Apart from python frameworks such as Django, he is knowledgeable about AJAX, Javascript and server management. With knowledge of handling databases, always being upto date with the upcoming technologies in all fields, and understanding the needs of the project, he makes a great back-end developer as well as a team player. -->
+              <!-- Hey there! its me Yash, I am backend developer of the site and the fist one to think about the idea of
+              this site. I had the idea of building this platform since I finished my 9th final exams but couldn't get
+              time to build it because of 10th Boards. But now feeling wonderful by finally bringing the imagination to
+              life. I am just a 16 yr old guy passionate about coding and dancing as a hobby, I've built several
+              softwares and games; you can check them out <a style="text-decoration: none"
+                href="https://apps.microsoft.com/search/publisher?name=Yash+Akarsh&hl=en-US&gl=US">here</a>
+              Peace! -->
+
+              Hey there! its me Yash 👋, the guy who came up with the idea for this platform and have majorly handled the backend part of the development. I got the idea back in 9th grade, but 10th-grade exams got in the way.I'm excited to see my imagination turning into reality!
+I'm just a 16-year-old who loves coding and dancing for fun.I have mastered Python, Java , Javascript, C# and worked with frameworks like Django, PyQT5 and Arduino and even tried my hands on cross platform app development. and aiming to get better in the field. Besides the school stuff, I've made some cool software and games one of them being ZERA-The Advanced Ai which is having around 4.8k downloads lately. You can check them out <a style="text-decoration: none;color:blue" href="https://apps.microsoft.com/search/publisher?name=Yash+Akarsh&hl=en-US&gl=US">here</a>.
+Peace out, and happy coding! ✌️🚀
+              <br><br>
+
+              contact: yashakarsh.business@gmail.com
+            </center>
+          </div>
+          <div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+    {% include 'staticfooter.html' %}
+
+
+    <!-- <script>
+const shareFileButton = document.querySelector('#shareButton')
+
+shareFileButton.addEventListener('click', () => {
+   shareImage(document.getElementById('img').src)
+//   shareImage('study.png')
+})
+shareTextButton.addEventListener('click', shareText)
+
+async function shareImage(imageUrl) {
+  console.log(`clicked shareImageAsset: ${imageUrl}`)
+  const fetchedImage = await fetch(imageUrl)
+  const blobImage = await fetchedImage.blob()
+  const fileName = imageUrl.split('/').pop()
+  const filesArray = [
+    new File([blobImage], fileName, {
+      type: 'image/png',
+      lastModified: Date.now(),
+    }),
+  ]
+  const shareData = {
+    title: fileName,
+    files: filesArray,
+    url: document.location.origin,
+  }
+  if (navigator.canShare && navigator.canShare(shareData)) {
+    await navigator.share(shareData)
+  }
+  // TODO implements a fallback to download the file
+}
+
+async function shareText() {
+  console.log('clicked shareTextData')
+  const shareData = {
+    title: 'Edy Segura',
+    text: 'Fullstack Software Engineer',
+    url: document.location.origin,
+  }
+  if (navigator.share) {
+    navigator.share(shareData).catch(console.error)
+  } else {
+    await navigator.clipboard.writeText(shareData.url)
+    shareTextButton.textContent = 'Copied to clipboard'
+    setTimeout(() => {
+      shareTextButton.textContent = 'Share Text'
+    }, 3000)
+  }
+}
+</script> -->
+
+
+
+
+
+
+  </body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+{% get_static_prefix as RES %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    
+    <title>Page Not Found -Jynx</title>
+</head>
+<body>
+    <div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+        <div class="uk-offcanvas-bar">
+            {% include "sidenav.html" with notifications=notifications %}
+        </div>
+    </div>
+    {% include "topnav.html" %}
+    <center>
+        <div style="margin-top: 10%;">
+        <h2>Sorry couldn't find the page you are looking for :)</h2>
+        </div>
+    </center>
+</body>
+</html>

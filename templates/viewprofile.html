@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        {% load static %}
+        {% get_static_prefix as RES %}
+
+          <title>Jynx - {{user.userdata.Username}}</title>
+
+
+           <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+           <link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- UIkit JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+        <!-- Masonry js -->
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+    </head>
+
+
+    <body style="background-color: #FFFFFE;">
+
+        {% include "topnav.html"%}
+
+
+        <!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+        <div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+            <div class="uk-offcanvas-bar">
+                {% include "sidenav.html" with notifications=notifications  %}
+            </div>
+        </div>
+
+
+        <div class="uk-grid uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+            <div class="uk-margin-small-top" uk-height-viewport="expand: true">
+                <div class="uk-animation-slide-top uk-padding-small">
+
+                    <center>
+                        <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden;position: relative;"
+                            class="uk-width-auto">
+                            <img style="width: 100%; height: 100%;background-size: contain;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);width: auto;height: auto;" ondblclick="fullscreenimg(this)"
+                                src="{{user.userdata.profilePic.url}}"
+                                uk-tooltip="title:double click to toggle;pos: right" alt="Avatar">
+                        </div>
+                    </center>
+                    <div class="uk-width-expand">
+                        <h3 class="uk-card-title uk-margin-remove-bottom">{{user.userdata.Username}}</h3>
+                        <p class="uk-text-meta uk-margin-remove-top"><a class="uk-link">{{user.userdata.userID}} </a>,
+                            <time datetime="{{user.userdata.created_on}}">{{user.userdata.created_on}}</time>
+                        </p>
+                    </div>
+                    Joined {{user.userdata.created_on}}
+                    <br>
+                    Total Friends: {{friends_num}}
+                    <p class="uk-width-3-4@m uk-width-expand@s uk-text-left uk-align-center">
+                        <center>
+                            {{user.userdata.bio|linebreaks}}
+                        </center>
+                    </p>
+                    <br>
+
+                    <div class="uk-button-group">
+                        {% if user != request.user %}
+                        {% if user in request.user.userdata.friends.all %}
+                          <a uk-toggle="target: #friendlistmodal" uk-tooltip="friends"  class="uk-button uk-button-default"  uk-icon="icon: users;"></a>
+
+<div id="friendlistmodal" uk-modal>
+    <div class="uk-modal-dialog">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title uk-text-center">Friendlist</h2>
+        </div>
+        <div class="uk-modal-body">
+          <ul class="uk-list uk-list-divider">
+            {% for friend in user.userdata.friends.all %}
+
+            <li><div class="uk-grid uk-grid-match uk-grid-small" uk-grid>
+                <div class="uk-width-auto">
+                    <div style="width: 40px; height: 40px; border-radius: 50px; overflow: hidden;">
+                                <img style="width: 100%; height: 100%; object-fit: cover;" src="{{friend.userdata.profilePic.url}}" alt="Avatar">
+                     </div>
+                    </div>
+                <div class="uk-width-expand uk-flex-middle"><a style="color:#333;text-decoration:none; font-size: larger;" href='/{{friend.userdata.userID|urlencode}}'>{{friend.userdata.Username}}~{{friend.userdata.userID}}</a></div>
+                <!-- {% if not friend in request.user.userdata.friends.all and friend != request.user %}
+                    <div class="uk-margin-remove uk-flex-middle"><a class="uk-flex-middle uk-width-auto uk-align-right uk-flex-middle" uk-icon="icon: plus;ratio:1.2;" >view </a></div>
+                {% endif %} -->
+            </div></li>
+            {% endfor %}
+
+          </ul>
+          </div>
+    </div>
+</div>
+
+
+
+                        {% else %}
+                            {% if not request.user.is_anonymous %}
+                                <a class="uk-button uk-button-default" uk-icon="plus" uk-tooltip="Send Friend Request"
+                                onclick="UIkit.notification({message: 'Friend Request sent',  pos: 'top-center'})"
+                                id="add_friend"></a>
+                            {% endif %}
+                        {% endif %}
+                        {% endif %}
+                        <script src="{{RES}}sharebutton.js"></script>
+
+
+                        <a class="uk-button uk-button-default" uk-icon="social" uk-tooltip="Share" onclick="sharefeature('{{ request.get_full_path}}')"></a>
+                        {% if not user == request.user %}
+                        <a class="uk-button uk-button-default" uk-icon="crosshairs" uk-tooltip="Report"
+                            onclick="UIkit.notification({message: 'User has been reported',  pos: 'top-center'})"></a>
+
+                        {% endif %}
+                        {% if user == request.user %}
+                         <a href="{% url 'friendlist' %}" uk-tooltip="friends"  class="uk-button uk-button-default"  uk-icon="icon: users;"></a>
+                        <a href="{% url 'settings' %}" class="uk-button uk-button-default" uk-icon="pencil"
+                            uk-tooltip="Profile"></a>
+                        <a class="uk-button uk-button-default" uk-icon="sign-out" uk-tooltip="Logout"
+                            href="{% url 'logout' %}"></a>
+                        {% endif %}
+                    </div>
+
+                    <hr class="uk-divider-icon">
+
+                    <div class=" uk-grid uk-grid-small uk-child-width-1-2@m uk-child-width-1-1@s grid"
+                        id="masonrycontainer">
+
+                        {% if user != request.user %}
+                        {% if user in request.user.userdata.friends.all %}
+                        {% for zig in user_zigs %}
+                        {% if zig.anonymous == False %}
+                        <div class="grid-item">
+                            {% include "myzigscard.html" with zig=zig title=zig.title date=zig.date replies=zig.replies.all %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        {% if user.userdata.viewProfile_permission == False %}
+                        This account is Private
+                        {% else %}
+                        {% for zig in user_zigs %}
+                        {% if zig.anonymous == False %}
+                        <div class="grid-item">
+
+                                {% include "myzigscard.html" with zig=zig title=zig.title date=zig.date replies=zig.replies.all %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                        {% else %}
+                        {% for zig in user_zigs %}
+                        <div class="grid-item">
+
+
+                            {% include "myzigscard.html" with zig=zig title=zig.title date=zig.date replies=zig.replies.all %}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+            <div class="uk-offcanvas-bar">
+                {% include "sidenav.html" %}
+            </div>
+        </div>
+
+
+		<div id="cardbx" class=" uk-animation-slide-top uk-modal uk-modal-full"
+			style="background-color: white;z-index: 9999;" uk-modal>
+		    <div class="uk-modal-dialog uk-overflow-hidden" style="padding:0px; margin:0 auto; width:100%; height:100%;" >
+			<a class="uk-position-top-right" onclick="clsframe()"><span uk-icon="icon: close;ratio:2"></span></a>
+<div class=" " style="padding:0px; margin:0 auto; width:100%; height:100%;overflow:visible;" >
+			<iframe class=" uk-width-expand  commentframe" id="cardframe"  style=" background:url('{{RES}}loader.gif') center center no-repeat;padding:0px; margin:0 auto; width:100%; height:100%">
+			</iframe>
+</div>
+			<a onclick="clsframe()"
+				style="text-decoration: none;color:black;background-color: none;position: absolute;top: 3%;right: 5%;">
+			</a>
+			</div>
+		</div>
+
+
+
+        <script>
+
+            $(document).ready(function () {
+                setTimeout(function () { setmasonry(); }, 1000);
+
+
+            });
+            function setmasonry() {
+
+                var container = document.querySelector('#masonrycontainer');
+                var msnry = new Masonry(container, {
+
+                    itemSelector: '.grid-item',
+
+                });
+            }
+
+
+            function fullscreenimg(element) {
+                element.requestFullscreen()
+
+
+
+                $(element).dblclick(function (event) {
+
+                    document.exitFullscreen();
+
+                });
+            }
+
+
+			function openmodal(id) {
+				UIkit.modal('#cardbx').show()
+				$('#cardframe').attr("src", "{% url 'homepage' %}zig/" + id + "/");
+
+				//document.getElementById('cmtbx').src = "{% url 'homepage' %}zig/2/";
+				//document.getElementById('cardbx').style.display = "block";
+
+			}
+			function clsframe() {
+				//document.getElementById('cardbx').style.display = "none";
+				UIkit.modal('#cardbx').hide()
+			}
+
+            pxx = 0
+            pyy = 0
+
+            function disableScroll() {
+                scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                pyy = scrollTop
+                scrollTop = 0
+                scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                pxx = scrollLeft
+
+                window.scrollTo(scrollLeft, scrollTop);
+                // if any scroll is attempted,
+                // set this to the previous value
+                window.onscroll = function () {
+                    window.scrollTo(scrollLeft, scrollTop);
+                };
+            }
+
+            function enableScroll(px, py) {
+
+                window.scrollTo(px, py);
+                window.onscroll = function () { };
+            }
+
+            $(document).ready(function () {
+                $('#add_friend').click(function () {
+                    var formFunction = 'add_friends'
+                    // var selected_user = $(this).attr('selected-user');
+
+                    var csrftoken = getCookie('csrftoken');
+                    // console.log(selected_user)
+                    // Creating the data object to send in the AJAX request
+                    var data = {
+                        'selected_user': '{{user.id}}',
+                        'form_function': formFunction
+                    };
+
+                    // Sending the AJAX request to your Django view
+                    $.ajax({
+                        headers: {
+                            'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+                        },
+                        url: '/',
+                        method: 'POST',
+                        data: data,
+                        success: function (response) {
+                            console.log(response);
+                        },
+                        error: function (xhr, textStatus, error) {
+                            console.log(xhr.statusText);
+                        }
+                    });
+                });
+            });
+
+            function deleteZig(id) {
+                var i=id
+                console.log(i)
+                var formFunction = 'deleteZig'
+                var id = id
+                // var selected_user = $(this).attr('selected-user');
+
+                var csrftoken = getCookie('csrftoken');
+                // console.log(selected_user)
+                // Creating the data object to send in the AJAX request
+                var data = {
+                    'form_function': formFunction,
+                    'id': id
+                };
+
+                // Sending the AJAX request to your Django view
+                $.ajax({
+                    headers: {
+                        'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+                    },
+                    url: "{% url 'homepage' %}",
+                    method: 'POST',
+                    data: data,
+                    success: function (response) {
+                        window.location = "/{{request.user.userdata.userID|escapejs}}";
+                    },
+                    error: function (xhr, textStatus, error) {
+                        console.log(xhr.statusText);
+                    }
+                });
+            }
+
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        </script>
+    </body>
+
+</html>

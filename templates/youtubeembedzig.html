@@ -1,0 +1,212 @@
+{% load static %}
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css"><style type="text/css">
+
+    .zigtitle{
+            font-size:22px ;
+        }
+         @media (max-width: 720px){
+            .zigtitle{
+                font-size: 17px;
+            }
+         }
+</style>
+<center>
+{% include "share.html" with idd=zig.id %}
+
+ <div class="uk-grid uk-child-width-expand uk-flex-row-reverse uk-width-3-4@m ">
+
+        <div class="uk-card uk-card-default uk-width-expand uk-animation-fade uk-padding-remove uk-margin-small-bottom"
+            style="border-radius:30px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+
+
+
+
+
+
+
+           <div class="uk-card-header uk-margin-small-bottom uk-padding " style="padding: 15px 0px 15px 30px;">
+
+
+                <div class="uk-align-left uk-width-expand">
+                <div class="uk-grid uk-grid-small uk-width-expand " uk-grid>
+                    <div class="uk-width-auto uk-padding-remove-horizontal uk-flex-middle">
+
+
+
+                            <div style="width: 40px; height: 40px; border-radius: 50px; overflow: hidden;">
+
+                                {% if zig.anonymous %}
+
+                                    <img style="width: 100%; height: 100%; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+                                {% else %}
+                                <a class="uk-link" href="/{{zig.user.userdata.userID|urlencode}}" style="color:inherit; text-decoration: none;"><img style="width: 100%; height: 100%; object-fit: cover;" src="{{zig.user.userdata.profilePic.url}}" alt="Avatar"></a>
+
+                                {% endif %}
+
+                            </div>
+
+
+
+                    </div>
+                    <div class="uk-width-expand uk-flex-middle">
+                        {% if not zig.anonymous %}
+                            <h3 class="zigtitle uk-text-break uk-margin-remove-bottom  uk-text-left"><a class="uk-link uk-text-break" href="/{{zig.user.userdata.userID|urlencode}}" style="color:inherit; text-decoration: none;">{{zig.user.userdata.userID}} </a></h3>
+                        {% else %}
+                            <h3 class="zigtitle uk-margin-remove-bottom  uk-text-left">Anonymous </h3>
+                        {% endif %}
+                    </div>
+                    <div class="uk-width-auto uk-padding-remove uk-text-top">
+                          <a   uk-icon="icon: social;ratio:1.2;" onclick="showsharemodal_{{ zig.id }}(this); fetch_image_{{zig.id}}()"></a>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+
+            <div class="uk-card-body uk-margin-small-top uk-padding-small">
+                <div>
+                <div style="background-color:transparent;height:auto;" class="uk-width-expand   " >
+
+
+
+
+                <div style=" position: relative; padding-bottom: 56.25%; height: 0;"  class="uk-width-auto uk-height-max-large" >
+
+                <a class=" uk-width-auto uk-position-absolute uk-position-top-right" uk-icon="icon: refresh;ratio:1.4;" style="margin: 10px;margin-right:15px;font-weight: bolder;text-decoration: none;background-color: #000033;color:white;border-radius: 50px;z-index: 999;" onclick="iframe_reload('yt_iframe_{{zig.id}}')"> </a>
+                   <iframe class="uk-width-expand yt_iframe_{{zig.id}}" style="position: absolute; top: 0; left: 0; width: 100%;  height: 100%;background:url('{{RES}}loader.gif') center center no-repeat;" src="https://www.youtube.com/embed/{{ zig.yt_url }}?color=white&rel=0&modestbranding=1" title="zig youtube embed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope;web-share"  allowfullscreen></iframe>
+                </div>
+                     <!--https://www.youtube.com/embed/MXtR87lvNtE?color=white&rel=0&modestbranding=1 HERE THE ID IS FROM embed/"ID"?-->
+
+
+                </div>
+            </div>
+
+
+
+
+                <h3 class="zigtitle uk-margin-remove uk-margin-small-top uk-text-center uk-text-break uk-width-4-5">{{zig.title|linebreaks}}</h3>
+                <p class="uk-text-meta uk-margin-remove-top "><time datetime={{zig.date}}>{{zig.date}}</time></p>
+
+                <!-- comment -->
+
+
+
+
+
+                <p class="uk-text-lead uk-margin-small  uk-text-left" style="font-size: larger;">Top Comment:</p>
+				<div class="uk-grid-small" uk-grid>
+
+					<div class="uk-width-expand uk-text-left" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+						{% if replies %}
+                        {% if zig.hidden_replies == False %}
+                            <div style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; overflow: hidden;">
+                                <img style="width: 100%; height: 100%; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+                            </div>
+                            {% if replies.0.sender == request.user %}
+                                You: {{replies.0.content}}
+                            {% else %}
+                                Anonymous: {{replies.0.content}}
+                            {% endif %}
+                        {% else %}
+                            Replies are hidden
+                        {% endif %}
+						{% else %}
+						  No replies yet
+						{% endif %}
+					  </div>
+
+					   {% if replies %}
+
+                        {% if  zig.hidden_replies == False or replies.0.sender == request.user %}
+                    <div class="uk-width-auto uk-align-right">
+                       {% include "likebutton.html" with likecount=replies.0.likes.count reply_id=replies.0.id like_senders=replies.0.likes.all %}
+
+
+                            <!-- dont remove this close div it closes a div open in likebutton.html -->
+                        </div>
+                        <!-- /\ dont remove -->
+
+                    </div>
+                    {% endif %}
+                    {% endif %}
+
+
+
+				</div>
+
+
+
+
+            </div>
+            <div class="uk-card-footer">
+                <center>
+                {% if zig.user != request.user %}
+
+
+                <a style="color: #231F20;" href="#reportconfirmationmodal_{{zig.id}}"
+                    class="uk-width-auto uk-position-bottom-right uk-margin-bottom uk-margin-right"
+                    uk-icon="icon: warning;ratio:1.5;" uk-toggle></a>
+
+
+                <div id="reportconfirmationmodal_{{zig.id}}" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                        <h2 class="uk-modal-title">Are you sure you want to report this user</h2>
+
+                        <p class="uk-text-right">
+                            <button class="uk-button uk-button-danger uk-modal-close" type="button">Cancel</button>
+                            <button class="uk-button uk-button-primary"
+                                onclick="zigreport(this,'zig','{{zig.id}}');UIkit.modal(reportconfirmationmodal_{{zig.id}}).hide();"
+                                type="button">Yes</button>
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+
+
+                    <button class="uk-button uk-button-default" style="border-radius: 50px;" href="#modal" onclick="openmodal('{{zig.id}}')">See More ({{replies.count}})</button>
+
+                </center>
+            </div>
+        </div>
+    </div>
+
+</center>
+<script>
+    function fetch_image_{{zig.id}}(){
+				var csrftoken = getCookie('csrftoken');
+
+				$.ajax({
+					headers: {
+									'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+								},
+					url: '{% url "share" %}',
+					data:{
+						'form_function':'shareImage',
+						'zig':'{{zig.id}}',
+					},
+					method: 'POST',
+					success: function (response) {
+						var imageUrl = 'data:image/png;base64,' + response.image;
+						obj=document.getElementById('image_container_{{zig.id}}')
+						obj.src=imageUrl
+					},
+					error: function (error) {
+						console.error('Error fetching image:', error);
+					}
+				});
+			}
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+</script>

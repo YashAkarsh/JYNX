@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load static %}
+{% get_static_prefix as RES %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css" />
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<title>Login - JYNX</title>
+</head>
+
+
+<style>
+    .container{
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  align-items: space-around;
+  justify-content: center;
+}
+
+.userInput{
+  display: flex;
+  justify-content: center;
+}
+
+input{
+    color:white;
+  margin: 10px;
+  height: 35px;
+  width: 65px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  font-family: arimo;
+  font-size: 1.2rem;
+  background: #222222;
+
+}
+
+</style>
+<body style="background-color: #FFFFFE;">
+
+<div class="uk-section uk-section-muted uk-flex uk-flex-middle uk-animation-scale-up" uk-height-viewport>
+  <div class="uk-width-1-1">
+    <div class="uk-container">
+      <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+          <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+            <h3 class="uk-card-title uk-text-center">OTP</h3>
+             <form action='/email_confirmation/'method="post" name="signup_form">
+               {% csrf_token %}
+              <div class="uk-margin">
+                <div class="uk-inline uk-width-1-1">
+                    <div class="container">
+                        <h5 class="uk-card-title uk-text-center">Enter the otp send to your email address</h5>
+                        <div class="userInput">
+                            <input type="text" id='ist' name="ist" maxlength="1" onkeyup="clickEvent(this,'sec')" required>
+                            <input type="text" id="sec" name="sec" maxlength="1" onkeyup="clickEvent(this,'third')" required>
+                            <input type="text" id="third" name="third" maxlength="1" onkeyup="clickEvent(this,'fourth')" required>
+                            <input type="text" id="fourth" name="fourth" maxlength="1" required>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="uk-margin">
+                <button class="uk-button uk-button-secondary uk-button-large uk-width-1-1"  type="submit" value="Enter">Enter</button>
+              </div>
+
+              {% if validity == False %}
+              <div class="uk-text-small uk-text-center uk-text-danger" id='invalid_block'>
+                Incorrect OTP
+              </div>
+              {% endif %}
+              <div class="uk-text-small uk-text-center">
+                <a href="/signup/">Wrong email?</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<script>
+
+function clickEvent(first,last){
+      if(first.value.length){
+        document.getElementById(last).focus();
+      }
+    }
+</script>
+
+</html>

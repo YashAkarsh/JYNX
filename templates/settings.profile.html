@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		{% load static %}
+		{% get_static_prefix as RES %}
+		<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css" />
+		  <title>Jynx - Edit Profile</title>
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">		 
+  		 
+
+  		   <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+
+		<!-- UIkit JS -->
+		<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{{ RES }}spinnercontrol.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	</head>
+<style type="text/css">
+	html,body{
+    overflow-x: hidden;
+}
+</style>
+	<body style="background-color: #FFFFFE;">
+
+		{% include "topnav.html" %}
+
+
+		<!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+	
+				<div class="uk-padding uk-width-expand uk-grid uk-grid-small uk-margin-large-bottom" uk-grid>
+					<div class="uk-card uk-card-default uk-width-1-5 uk-visible@m  uk-animation-slide-left" style="height:90%;border-radius: 20px;" >
+						<h3 class="uk-width-expand uk-text-center">Settings</h3>
+						<ul class="uk-list uk-list-divider uk-margin-small-bottom">
+
+    							 <li><span  uk-icon="icon: user"></span><a href="{% url 'settings' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Edit Profile</a></li>
+                                    <li><span uk-icon="icon: eye"></span><a  href="{% url 'settingsMyzigs' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Zigs settings</a></li>
+                                   
+                                    <li><span uk-icon="icon: bell"></span><a  href="{% url 'settingsNotifications' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Notifications</a></li>
+                                    <li><span uk-icon="icon: database"></span><a href="{% url 'settingsAccount' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Account Control</a></li>
+                             
+                                    <li><span  uk-icon="icon: world"></span><a href="{% url 'about' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;What is it about?</a></li>
+</ul>
+					</div>
+
+				   <div class="uk-width-expand  uk-padding-small" >
+        <div class=" uk-width-expand  uk-animation-slide-right">
+						<div class="uk-text-large uk-margin-remove-top">
+							<h2 class="uk-padding-remove  uk-margin-bottom ">Credentials</h2>
+						</div>
+
+						<div class="uk-grid uk-grid-small uk-child-width-1-1">
+
+							<div class="uk-text-large uk-text-left uk-margin-bottom ">
+								<div>Username</div>
+								
+									<input class="uk-input " maxlength="150" id="username" type="text" style="border-radius: 7px;" 
+										value="{{request.user.userdata.Username}}" aria-label="Input">
+								
+							</div>
+							<div class="uk-text-large uk-text-left  uk-margin-bottom  ">
+								Instagram ID <span class="uk-badge"
+									uk-tooltip="Adding you instagram handle helps you share you zigs with others on Instagram.">?</span>
+								
+									<input  maxlength="150" class="uk-input" id="ig" type="text"  style="border-radius: 7px;" 
+										value="{{request.user.userdata.instagram_handle}}" aria-label="Input">
+								
+							</div>
+							<div class="uk-text-large uk-text-left  uk-margin-bottom ">
+								User ID
+								
+									<input  maxlength="150"  class="uk-input" id="user_id" type="text"  style="border-radius: 7px;" 
+										value="{{request.user.userdata.userID}}" aria-label="Input">
+								
+							</div>
+							<div class="uk-text-large uk-text-left uk-margin-bottom ">
+								Email Address
+								
+									<input class="uk-input"  maxlength="200" id="email"  style="border-radius: 7px;"  type="email" value="{{request.user.email}}"
+										aria-label="Input">
+								
+							</div>
+							<div class="uk-text-large uk-text-left uk-margin-bottom  ">
+								Phone No. <span class="uk-badge"
+									uk-tooltip="Adding your phone number help others find you here.">?</span>
+								
+									<input  maxlength="30" class="uk-input numinput" id="phone_num" type="number"  style="border-radius: 7px;" 
+										value="{{request.user.userdata.phone_num}}" aria-label="Input">
+								
+							</div>
+
+							<div class="uk-text-large  uk-margin-bottom  uk-text-left">
+								Profile picture
+								
+									<a class="uk-button uk-button-default" href="#changeprofilemodal"  style="border-radius: 70px;"  uk-toggle>Change
+										Profile Picture</a>
+
+
+									<div id="changeprofilemodal" uk-modal>
+										<div class="uk-modal-dialog">
+											<button class="uk-modal-close-default" type="button" uk-close></button>
+											<div class="uk-modal-header">
+												<h2 class="uk-modal-title">Upload Profile Picture</h2>
+											</div>
+											<div class="uk-modal-body">
+
+												<div class="uk-margin uk-align-center">
+													<center><img src="https://picsum.photos/200" id="output"
+															style="border-radius: 100px;display: none;"
+															class="uk-height-small uk-width-small uk-margin-remove" />
+													</center>
+													<br>
+
+
+
+
+													<div uk-form-custom>
+														<input accept="image/*" name="pfp" id="pfp" type="file"
+															aria-label="Custom controls" onchange="loadFile(event)">
+
+														<button
+															class="uk-button uk-button-default uk-margin-remove uk-align-center"
+															type="button" tabindex="-1">Select</button>
+
+													</div>
+												</div>
+											</div>
+											<div class="uk-modal-footer uk-text-right">
+												<button class="uk-button uk-button-default uk-modal-close"
+													type="button">Cancel</button>
+												<button class="uk-button uk-button-primary  uk-modal-close"
+													type="button">Ok</button>
+											</div>
+										</div>
+									</div>
+								
+							</div>
+
+							<div class="uk-text-large uk-text-left uk-width-1-1">
+								<div class="uk-text-large uk-text-left uk-width-1-1">
+									Bio
+									<div
+										class="uk-card uk-card-default uk-padding-small uk-text-muted uk-text-center uk-border-rounded">
+										<textarea  maxlength="300" class="uk-textarea" rows="3" aria-label="Textarea" maxlength="150"
+											style="word-wrap: break-word;resize: none;" id="bio">{{request.user.userdata.bio}}</textarea>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						{% if request.user.userdata.viewProfile_permission %}
+						<div class="uk-text-lead uk-text-left">Allow users to view your profile <input
+								class="uk-checkbox" id="pfView" type="checkbox" value="True" checked></div>
+						{% else %}
+						<div class="uk-text-lead uk-text-left">Allow users to view your profile <input
+								class="uk-checkbox" id="pfView" type="checkbox" value="True"></div>
+						{% endif %}
+
+						<!-- add action -->
+						<a class="uk-button uk-button-primary uk-width-medium uk-align-left uk-margin-small"
+							onclick="change_usrData()">Save</a>
+
+					</div>
+				</div>
+			</div>
+		<div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+			<div class="uk-offcanvas-bar">
+				{% include "sidenav.html" with notifications=notifications %}
+			</div>
+		</div>
+		<script>
+
+			var loadFile = function (event) {
+
+				var image = document.getElementById("output");
+				document.getElementById("output").style.display = "block"
+
+				image.src = URL.createObjectURL(event.target.files[0]);
+			};
+
+
+			
+
+			function disableSpace(event) {
+				// Check if the pressed key is the space key
+				if (event.keyCode === 32) {
+				// Prevent the default action (typing space)
+				event.preventDefault();
+				}
+			}
+
+			function change_usrData() {
+				var csrftoken = getCookie('csrftoken');
+				var username_value = document.querySelector("#username").value
+				var bio_value = document.querySelector("#bio").value
+				var ig_id_value = document.querySelector("#ig").value
+				var user_id_value = document.querySelector("#user_id").value
+				var email_value = document.querySelector("#email").value
+				var phone_value = document.querySelector("#phone_num").value
+				var pfView_value = document.querySelector("#pfView").checked
+				const user_pfp = document.querySelector('#pfp');
+				var formData = new FormData();
+				
+				console.log(user_id_value)
+				if(username_value!='' && user_id_value!='' && email_value!=''){
+				formData.append('form_function', 'change_pf_data')
+				formData.append('username', username_value);
+				formData.append('ig_id', ig_id_value);
+				formData.append('bio', bio_value);
+				// formData.append('bio', Bio);
+				formData.append('user_id', user_id_value)
+				formData.append('email', email_value)
+				formData.append('phone_num', phone_value)
+				formData.append('pfView', pfView_value)
+				
+				try {
+					const file = user_pfp.files[0]
+					formData.append('profilePic', file, 'profilePic.jpg');
+				}
+				catch (err) {
+					console.log('no image')
+				}
+
+				
+				$.ajax({
+					headers: {
+						'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+					},
+					url: "{% url 'settings' %}",
+					type: 'POST',
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function (response) {
+						// Handle response from the server
+						UIkit.notification({message: 'Saved',  pos: 'top-center'})
+						console.log('success');
+					},
+					error: function (error) {
+						// Handle error
+					}
+				});
+				}
+				else{
+					UIkit.notification({message: 'Username or User id should not be empty',  pos: 'top-center'})
+				}
+
+			}
+
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = cookies[i].trim();
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+		</script>
+	</body>
+
+</html>

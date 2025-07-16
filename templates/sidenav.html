@@ -1,0 +1,102 @@
+{% load static %}
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<div class="uk-position-top-right uk-padding-small">
+
+    
+    <a class="uk-dark" uk-icon="icon:trash" onclick="delete_notifications()"></a>
+</div>
+
+<br>
+<ul class="uk-nav uk-nav-secondary uk-margin-remove uk-padding-remove" id="notification_space" >
+    {% csrf_token %}
+    {% if notifications %}
+      
+        {% for notification in notifications %}
+            {% if notification.category == 'reply' %}
+                {% if request.user.userdata.reply_notifications == True %}
+                    <li >
+                        <div class="uk-grid uk-grid-small" uk-grid>
+                            <div class="uk-width-auto" >  <a href="" uk-icon="icon:bolt"></a></div>
+                        <div class="uk-width-expand">
+
+                        <a href="/{{notification.url}}" style="text-decoration:none;"><div>{{notification.title}}<div class="uk-nav-subtitle">{{notification.notification}}</div></div></a>
+                        </div>
+                        
+                    </div>    
+
+
+                    </li>
+                {% endif %}
+            {% endif %}
+            {% if notification.category == 'friend_request' %}
+                {% if request.user.userdata.friend_requests_notifications == True %}
+                    <li >
+                        <div class="uk-grid uk-grid-small" uk-grid>
+                            <div class="uk-width-auto">  <a href="" uk-icon="icon:user"></a></div>
+                        <div class="uk-width-expand">
+                            <a style="text-decoration:none;" href="/{{notification.url}}"><div>{{notification.title}}<div class="uk-nav-subtitle">{{notification.notification}}</div></div></a>
+                        </div>
+                        <!-- <div class="uk-width-auto uk-align-right">  <a href="" uk-icon="icon:plus"></a></div> -->
+                    </div>
+
+
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    <center>No notifications to show</center>
+    {% endif %}
+
+</ul>
+
+
+<script>    
+            function delete_notifications(){
+                console.log('ok')
+                var csrftoken = getCookie('csrftoken');
+                var form_function = 'delete_notifications';
+                var notification_area = $('#notification_space');
+                var formData = new FormData();
+                formData.append('form_function', form_function);
+
+                $.ajax({
+                    headers: {
+                        'X-CSRFToken': csrftoken // Include the CSRF token in the request headers
+                    },
+                    url: "/",
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        notification_area.html('<br>'); 
+                        notification_area.html('<center>No Notifications as of now :)</center>'); 
+                    },
+                    error: function (xhr, textStatus, error) {
+                        console.log(xhr.statusText);
+                    }
+                });
+            };
+     
+
+    
+    
+    function getCookie(name) {
+    var cookieValue = "";
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = cookie.substring(name.length + 1);
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>

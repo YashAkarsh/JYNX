@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load static %}
+{% get_static_prefix as RES %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<!-- UIkit JS -->
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<title>JYNX</title>
+
+</head>
+<body style="background-color: #FFFFFE;">
+
+<div class="uk-section uk-section-muted uk-flex uk-flex-middle uk-animation-scale-up" uk-height-viewport>
+  <div class="uk-width-1-1">
+    <div class="uk-container">
+      <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+          <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+            <h3 class="uk-card-title uk-text-center">An Email with the link to reset password has been sent to you.</h3>
+            <div class="uk-margin">
+              <a href="{% url 'login' %}"><button class="uk-button uk-button-secondary uk-button-large uk-width-1-1"  type="submit" value="reset" > Continue</button></a>
+              </div>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

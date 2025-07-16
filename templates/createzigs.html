@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+{% get_static_prefix as RES %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+	  <title>Jynx - Create Zig</title>
+	  
+	
+  		   <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+<!-- UIkit JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+</head>
+<body style="background-color: #FFFFFE;">
+<span class="uk-position-fixed uk-position-top-center uk-margin-small-bottom uk-margin-small-right uk-padding-small" style="font-weight: bolder;z-index: 99999;display:none;margin-top:11vh" uk-spinner="ratio: 1.2" id="loader"></span>
+
+{% include "topnav.html"%}
+
+
+<!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+<div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+    <div class="uk-offcanvas-bar">
+    	{% include "sidenav.html" with notifications=notifications %}
+    </div>
+</div>
+
+
+
+<div class="uk-grid uk-grid-small ">
+	<div class="uk-card uk-card-default uk-width-1-1" uk-height-viewport="expand:true">
+		<div class="uk-card-header">
+			<h3 class="uk-card-title"><center>New Zig</center></h3>
+		</div>
+		<div class="uk-card-body" style="padding-top:15px">
+
+			{% include 'createzigform.html' %}
+
+		</div>
+
+		<div class="uk-card-footer ">
+
+			<button class="  uk-button uk-button-primary uk-width-expand " onclick="createZig()" style="margin-bottom:23%;">Create Zig</button>
+
+		</div>
+	</div>
+</div>
+
+<script>
+	function createZig(){
+		document.getElementById('loader').style.display='block'
+		var csrftoken = getCookie('csrftoken');
+		var title=document.getElementById('title').value
+		var zig_mode=document.getElementById('mode').value
+		var zig_identity=document.getElementById('identity').checked
+		var hide_replies=document.getElementById('hide_replies').checked
+		var track_url=document.getElementById('track_url').value
+		var playlist_url=document.getElementById('playlist_url').value
+		var yt_url=document.getElementById('yt_url').value
+		var zig_type = UIkit.tab(document.querySelector('#zig_types')).index();
+        if(title==''){
+			document.getElementById('loader').style.display='none'
+			console.log('empty title')
+			alert('Title should not be empty')
+			}
+		else{
+			if(zig_type==1 && yt_url==''){
+				zig_type=0
+			}
+			else if(zig_type==2 && track_url=='' && playlist_url==''){
+				zig_type=0
+			}
+		var formData=new FormData()
+		formData.append('title' ,title)
+		formData.append('zig_mode' ,zig_mode)
+		formData.append('identity' ,zig_identity)
+		formData.append('hide_replies' ,hide_replies)
+		formData.append('zig_type' ,zig_type)
+		formData.append('yt_url' ,yt_url)
+		formData.append('track_url' ,track_url)
+		formData.append('playlist_url' ,playlist_url)
+
+		try{
+			formData.append('zig_image',zig_image.files[0])
+		}
+		catch(err){
+			console.log('no image')
+		}
+		$.ajax({
+			headers: {
+				'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+			},
+			url: "{% url 'createZig' %}",
+			method: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (response) {
+				document.getElementById('loader').style.display='none'
+
+				window.location = "/{{request.user.userdata.userID|escapejs}}";
+
+			},
+			error: function (xhr, textStatus, error) {
+				console.log(xhr.statusText);
+			}
+		});
+	}}
+	function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = cookies[i].trim();
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+</script>
+
+
+</body>
+</html>

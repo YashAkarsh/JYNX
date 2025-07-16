@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+{% get_static_prefix as RES %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+	  <title>Jynx - Contact</title>
+		 
+  		  <meta name="description" content="Reach out to us for feedback, bug reports,  queries and any inquiries " >
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">
+  		   <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+	<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css?version=2" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- UIkit JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+</head>
+<body style="background-color: #FFFFFE;">
+
+{% include "topnav.html"%}
+
+
+<!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+<div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+    <div class="uk-offcanvas-bar">
+    	{% include "sidenav.html" %}
+    </div>
+</div>
+
+
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container uk-margin-small-bottom">
+
+         <h2 class="uk-width-expand uk-text-center">Contact us</h2>
+
+        <div class="uk-grid-match uk-child-width-1-2@m" uk-grid>
+            <div>
+              <p>Facing an issue? Found a bug? Wanna give in your valuable feedback? Want to inquire us about anything? Just fill in the form to contact the team at your figertips. We might be a bit late to reply due to being understaffed but we sure will find time for your voice and your issues and give our best to help for the same.</p>
+
+              <br><br>
+              <h4>~ <a href="{% url 'meetdevs' %}" class="uk-link">Team Jynx</a></h4>
+            </div>
+           	<hr class="uk-hidden@m uk-divider-icon">
+            <div>
+               
+
+            	<form autocomplete="off" action="{% url 'contact' %}" method="POST">
+					{% csrf_token %}
+				    <fieldset class="uk-fieldset">
+
+				        <legend class="uk-legend">Contact Form</legend>
+
+				        <div class="uk-margin">
+				        	<div class="uk-inline uk-width-expand">
+					            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+					              <input class="uk-input  uk-width-expand" required type="email" name="user_email"  autocomplete="off" type="text" placeholder="Enter your email" aria-label="Mail input">
+					        </div>
+				        
+				        </div>
+
+
+				       
+						<h4 class="uk-margin-small">Your Message: </h4>
+				        <div class="uk-margin">
+				            <textarea class="uk-textarea" rows="5"	name="user_message" required   autocomplete="off" aria-label="Textarea"></textarea>
+				        </div>
+
+				        <div class="uk-margin">
+			                <button class="uk-button uk-button-secondary uk-button-large uk-width-1-1"  type="submit" value="Log in">Enter</button>
+			              </div>
+				    </fieldset>
+				</form>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include 'staticfooter.html' %}
+
+</body>
+</html>

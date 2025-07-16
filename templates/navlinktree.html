@@ -1,0 +1,53 @@
+  {% load static %}
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<a class="uk-margin-remove-left uk-padding-remove uk-hidden@l" href="#modal-overflow" uk-toggle><span uk-icon="icon: menu; ratio: 1.5"></span></a>
+
+<div id="modal-overflow" uk-modal>
+    <div class="uk-modal-dialog">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Menu Tree</h2>
+        </div>
+
+        <div class="uk-modal-body" uk-overflow-auto>
+
+
+        
+ <ul class="uk-nav-default" uk-nav>
+         <li>
+           {% include "searchbar.html" with searchbarid="menulinktreesrcbar" %}
+        </li>
+        
+        <li class="uk-nav-header">Header</li>
+        <li><a href="{% url 'homepage' %}"><span class="uk-margin-small-right" uk-icon="icon: home"></span>Homepage</a></li>
+        <li><a href="{% url 'discover' %}"><span class="uk-margin-small-right" uk-icon="icon: bolt"></span> Browse Zigs</a></li>
+        <li><a href="{% url 'friendlist' %}"><span class="uk-margin-small-right" uk-icon="icon: users"></span> Friends</a></li>        
+        <li><a href="/{{request.user.userdata.userID|urlencode}}"><span class="uk-margin-small-right" uk-icon="icon: happy"></span>Your Profile</a></li>
+        <li class="uk-parent">
+            <a href="#">Settings <span uk-nav-parent-icon></span></a>
+            <ul class="uk-nav-sub">
+                <li><a href="{% url 'settings' %}"><span class="uk-margin-small-right" uk-icon="icon: user"></span>Edit Profile</a></li>
+                <li><a href="{% url 'settingsMyzigs' %}"><span class="uk-margin-small-right" uk-icon="icon: eye"></span>Zigs settings</a></li>
+                <li><a href="{% url 'settingsNotifications' %}"><span class="uk-margin-small-right" uk-icon="icon: bell"></span>Notifications</a></li>
+                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: link"></span>Socials</a></li>
+                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: world"></span>What is it about?</a></li>
+            </ul>
+
+            <li class="uk-nav-divider"></li>
+            <li><a href="{% url 'meetdevs' %}"><span class="uk-margin-small-right" uk-icon="icon: git-branch"></span>Meet the developers</a></li>
+            <li><a href="{% url 'help' %}"><span class="uk-margin-small-right" uk-icon="icon: question"></span>Help</a></li>
+        </li>
+
+    </ul>
+
+        </div>
+
+        <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,5 @@
+{% load static %}
+{% get_static_prefix as RES %}
+<script src="{{RES}}sharebutton.js"></script>
+
+<a class="uk-button uk-button-default" style="border-radius: 50px;padding-right: 15px;margin-right: 5px;"  onclick="sharefeature('/zig/{{zig.id}}')"><span class="uk-icon uk-margin-remove uk-text-middle" uk-icon="icon:link;ratio:1.12;"></span> Copy Link</a>

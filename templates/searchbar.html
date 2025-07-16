@@ -1,0 +1,192 @@
+
+
+<div>
+
+
+    <div>
+      
+        <div class="uk-button-group uk-width-expand ">
+              <input class="uk-input {{ searchbarid }}" onclick="searchinputclicked{{ searchbarid }}()" style="border-radius: 50px 0px 0px 50px" type="text" aria-label="Clickable icon" >
+           
+            <button class="uk-button uk-button-default uk-width-auto" style="border-radius: 0px 50px 50px 0px;padding: 0px 10px 0px 10px; border-color:#555; " onclick="searchinputclicked{{ searchbarid }}()" ><span uk-icon="search"></span></button>
+        </div>
+    </div>
+
+
+      
+
+  
+  
+  <div style="background-color:#FAF9F6;border-radius: 0px 0px 25px 25px;position: absolute;width: auto;z-index: 999;margin-top: 20px;">
+    <ul class="uk-margin-small-top  uk-padding-remove uk-margin-small-bottom  " id="{{ searchbarid }}" style="display:none;list-style: none;max-height: 150px;overflow-y: auto;color: #333333;">
+
+
+      <li class="uk-padding-remove uk-margin-remove" >
+        
+          <b>Search History</b>
+          <a class="uk-margin-remove uk-margin-small-bottom uk-align-right  uk-margin-small-right uk-width-auto" onclick="searchinputclose{{ searchbarid }}()" style="height:auto;color: #333;" uk-icon="icon: close;ratio: 1.25"></a>
+       <hr class="uk-margin-small">
+      </li>
+      {% if request.user.userdata.search_history.all %}
+            {% for searched_user in request.user.userdata.search_history.all %}
+                {% include "search_result_content.html" with user=searched_user %}
+            {% endfor %}
+      {% else %}
+            You can look for that person :)
+      {% endif %}
+      
+      
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function searchinputclicked{{ searchbarid }}() {
+    
+      document.getElementById("{{ searchbarid }}").style.display = "block"
+      
+   
+    
+  }
+  function searchinputclose{{ searchbarid }}() {
+   document.getElementById("{{ searchbarid }}").style.display = "none"
+  }
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+        }
+        }
+    }
+    return cookieValue;
+    }
+  $(document).ready(function() {
+  // $('#src_run').click(function() {
+      var inputElement = document.querySelector('.{{ searchbarid }}');
+      inputElement.addEventListener('input', function() {
+  
+
+      var formFunction='search_friends'
+      var src_value=document.querySelector('.{{ searchbarid }}').value
+
+      var suggestion_area=document.querySelector('#{{ searchbarid }}')
+      var csrftoken = getCookie('csrftoken');
+      // Create the data object to send in the AJAX request
+      var data = {
+          'src_value': src_value,
+          'form_function': formFunction
+      };
+
+      // Send the AJAX request to your Django view
+      $.ajax({
+          headers: {
+                  'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+              },
+          url: '/',
+          method: 'POST',
+          data: data,
+          success: function(response) {
+              // Handle the response from the Django view
+              // console.log(response);
+
+              console.log(response)
+              if(response!=''){
+                  suggestion_area.innerHTML = "";
+                  response.forEach(function(matched_users_data) {
+                      
+                      var li = document.createElement("li");
+                      li.innerHTML = matched_users_data;
+                      suggestion_area.appendChild(li);
+                  });   
+              }
+              else{
+                suggestion_area.innerHTML = `
+                  <li class="uk-padding-remove uk-margin-remove" >
+        <b>Search History</b>
+        <a class="uk-margin-remove uk-margin-small-bottom uk-align-right  uk-margin-small-right uk-width-auto" onclick="searchinputclose{{ searchbarid }}()" style="height:auto;" uk-icon="icon: close;ratio: 1.25"></a>
+     <hr class="uk-margin-small">
+    </li>
+    {% if request.user.userdata.search_history.all %}
+            {% for searched_user in request.user.userdata.search_history.all %}
+                {% include "search_result_content.html" with user=searched_user %}
+            {% endfor %}
+      {% else %}
+            You can look for that person :)
+      {% endif %}`;
+              }
+          },
+          error: function(xhr, textStatus, error) {
+              console.log(xhr.statusText);
+          }
+      });
+  });
+  });
+  function search_clicked(user){
+    var csrftoken = getCookie('csrftoken');
+    var userID=user;
+    var formFunction='search_history';
+    var data = {
+          'user': userID,
+          'form_function': formFunction
+      };
+
+      // Send the AJAX request to your Django view
+      $.ajax({
+          headers: {
+                  'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+              },
+          url: '/',
+          method: 'POST',
+          data: data,
+          success: function(response) {
+              console.log('added to history')
+          },
+          error: function(xhr, textStatus, error) {
+              console.log(xhr.statusText);
+          }
+      });
+
+  }
+  function delete_history(user){
+    var csrftoken = getCookie('csrftoken');
+    var userID=user
+    var formFunction='delete_history'
+    var liElement=document.getElementById(user)
+    console.log(liElement)
+    var data = {
+          'user': userID,
+          'form_function': formFunction
+      };
+
+      // Send the AJAX request to your Django view
+      $.ajax({
+          headers: {
+                  'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+              },
+          url: '/',
+          method: 'POST',
+          data: data,
+          success: function(response) {
+            
+              console.log('deleted to history')
+            liElement.remove();
+
+
+          },
+          error: function(xhr, textStatus, error) {
+              console.log(xhr.statusText);
+          }
+      });
+
+
+
+
+
+  }
+</script>

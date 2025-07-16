@@ -1,0 +1,288 @@
+  {% load static %}
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<center >
+	<style type="text/css">
+		.zigtitle{
+			font-size:22px ;
+		}
+		 @media (max-width: 720px){
+		 	.zigtitle{
+		 		font-size: 17px;
+		 	}
+		 }
+	</style>
+	{% include "share.html" with idd=zig.id %}
+	<div class="uk-card uk-card-default uk-margin-small" style="border-radius:15px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+
+		<!-- NO NEEDFOR SHARE BUTTON HERE AS IT IS IN MODAl -->
+		<!-- <div class="uk-width-auto  uk-hidden@m" style="padding-left: 10px;">
+		    <a class="uk-margin-small-right uk-margin-remove-bottom uk-position-top-right" style="padding: 7px 7px 0px 0px" uk-icon="icon: social;ratio:1.5;" onclick="showsharemodal_{{ zig.id }}(this);fetch_image_{{zig.id}}()"></a>
+		</div> -->
+
+
+
+
+		<div class="uk-card-header uk-margin-small-bottom">
+
+				{% if zig.user == request.user %}
+
+			{% if zig.anonymous == True %}
+			<div class="uk-badge uk-position-bottom-right uk-margin-small-bottom uk-margin-small-right">
+			<span >Anonymous</span>
+		</div>
+			{% endif %}
+		{% endif %}
+
+			<div class="uk-grid-small uk-flex-middle" uk-grid>
+				<div class="uk-width-auto">
+					<div style="width: 40px; height: 40px; border-radius: 50px; overflow: hidden;">
+						{% if zig.user != request.user %}
+						  	{% if zig.anonymous == True %}
+								<img style="width: 100%; height: 100%; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+							{% else %}
+								<a class="uk-link" href="/{{zig.user.userdata.userID|urlencode}}" style="color:inherit; text-decoration: none;">
+									<img style="width: 100%; height: 100%; object-fit: cover;" src="{{zig.user.userdata.profilePic.url}}" alt="Avatar">
+								</a>
+							{% endif %}
+						{% else %}
+							<a class="uk-link" href="/{{zig.user.userdata.userID|urlencode}}" style="color:inherit; text-decoration: none;">
+								<img style="width: 100%; height: 100%; object-fit: cover;" src="{{zig.user.userdata.profilePic.url}}" alt="Avatar">
+							</a>
+						{% endif %}
+
+					</div>
+				</div>
+				<div class="uk-width-expand">
+					<h3 class="uk-margin-remove-bottom uk-text-break uk-text-left zigtitle">{{title|linebreaks}}
+					</h3>
+					{% if zig.user != request.user %}
+						{% if zig.anonymous == True %}
+							<p class="uk-text-meta uk-margin-remove-top  uk-text-left">Anonymous, <time
+								datetime={{date}}>{{date}}</time></p>
+						{% else %}
+							<p class="uk-text-meta uk-margin-remove-top uk-text-break uk-text-left"><a
+								class="uk-link" href="/{{zig.user.userdata.userID|urlencode}}">{{zig.user.userdata.userID}} </a>, <time
+								datetime={{date}}>{{date}}</time></p>
+						{% endif %}
+
+					{% else %}
+						<p class="uk-text-meta uk-margin-remove-top  uk-text-left"><a
+							class="uk-link">{{zig.user.userdata.userID}} </a>, <time
+							datetime={{date}}>{{date}}</time></p>
+					{% endif %}
+
+
+				</div>
+			</div>
+		</div>
+
+		<div class="uk-card-body uk-margin-small-top uk-padding-small">
+
+			<!-- add if else start -->
+			{% if zig.image %}
+				<div>
+					<div style="background-color:transparent;" class="uk-width-expand  uk-flex-middle"  style="height:auto" >
+
+						<img src="{{zig.image.url}}" id="zigimage"    class="uk-width-auto uk-height-max-large uk-flex-middle" uk-tooltip="title:double click to toggle;pos: bottom-right" alt="zig Image" ondblclick="fullscreenimgmyzigscard(this)" >
+
+
+					</div>
+				</div>
+			{% endif %}
+			<!-- THE COMMENT BELOW IS FOR SPOTIFY ZIGS -->
+			{% if zig.type == 'song_type' %}
+
+			<div>
+				<div style="background-color:transparent;position: relative;" class="uk-width-expand"  style="height:auto">
+					  <a class=" uk-width-auto uk-position-absolute uk-position-top-right" uk-icon="icon: refresh;ratio:1.4;" style="margin: 10px;margin-right:15px;font-weight: bolder;text-decoration: none;background-color: #000033;color:white;border-radius: 50px;z-index: 999;" onclick="iframe_reload('yt_iframe_{{zig.id}}')"> </a>
+
+					{% if zig.playlist %}
+						<iframe style="border-radius:12px;background:url('{{RES}}loader.gif') center center no-repeat;" src="https://open.spotify.com/embed/{{zig.playlist_url}}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+					{% else %}
+
+						<iframe style="border-radius:12px;background:url('{{RES}}loader.gif') center center no-repeat;" src="https://open.spotify.com/embed/track/{{zig.track_url}}?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+					{% endif %}
+
+
+				</div>
+			</div>
+			{% endif %}
+
+
+
+			<!-- COMMENT BELOW IS FOR YOUTUBE ZIGS -->
+
+			{% if zig.type == 'yt_type' %}
+
+			<div>
+				<div style="background-color:transparent;position: relative;" class="uk-width-expand   "  style="height:auto">
+ 			<a class=" uk-width-auto uk-position-absolute uk-position-top-right" uk-icon="icon: refresh;ratio:1.4;" style="margin: 10px;margin-right:15px;font-weight: bolder;text-decoration: none;background-color: #000033;color:white;border-radius: 50px;z-index: 999;" onclick="iframe_reload('yt_iframe_{{zig.id}}')"> </a>
+
+
+
+				<div style=" position: relative; padding-bottom: 56.25%; height: 0;"  class="uk-width-auto uk-height-max-large" >
+
+				<iframe class="uk-width-expand " style="position: absolute; top: 0; left: 0; width: 100%;  height: 100%;background:url('{{RES}}loader.gif') center center no-repeat;" src="https://www.youtube.com/embed/{{zig.yt_url}}?color=white&rel=0&modestbranding=1" title="zig youtube embed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope;web-share"  allowfullscreen></iframe>
+				</div>
+
+
+
+				</div>
+			</div>
+			{% endif %}
+
+			<!-- if else end -->
+			<!-- comment -->
+
+
+			<!-- comment -->
+				<p class="uk-text-lead uk-margin-small  uk-text-left"  style="font-size:larger;">Top Comment:</p>
+				<div class="uk-grid-small" uk-grid>
+
+					<div class="uk-width-expand uk-text-left" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+						{% if replies %}
+						  <div style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; overflow: hidden;">
+							<img style="width: 100%; height: 100%; object-fit: cover;" src="/static/image/pp.jpg" alt="Avatar">
+						  </div>
+						  {% if zig.hidden_replies == False %}
+							{% if replies.0.sender == request.user %}
+								You: {{replies.0.content}}
+							{% else %}
+								Anonymous: {{replies.0.content}}
+							{% endif %}
+						  {% else %}
+							Replies are hidden
+						  {% endif %}
+
+
+						{% else %}
+						  No replies yet
+						{% endif %}
+					  </div>
+					  {% if replies and zig.hidden_replies == False %}
+					  <div class="uk-auto">
+						  {% include "likebutton.html" with likecount=replies.0.likes.count reply_id=replies.0.id like_senders=replies.0.likes.all %}
+
+
+								<!-- dont remove this close div it closes a div open in likebutton.html -->
+								<!-- /\ dont remove -->
+
+						</div>
+					</div>
+					{% endif %}
+				</div>
+
+
+
+
+
+		</div>
+		<div class="uk-card-footer">
+			 	<center>
+			    		<div class="uk-button-group">
+
+			        	<a class="uk-button uk-button-default"  style="border-radius: 50px;" href="#modal" onclick="openmodal('{{zig.id}}')" >More</a>
+
+			        	{% if zig.user == request.user %}
+			        	<div>&nbsp;
+							<a class="uk-button uk-button-default uk-margin-remove uk-padding-remove " style="border:none;" uk-icon="more-vertical" uk-tooltip="Actions" uk-toggle="target: #actions_{{zig.id}}" id="morebutton"></a>
+							<div id="actions_{{zig.id}}" uk-modal>
+								<div class="uk-modal-dialog uk-modal-body">
+									<h2 class="uk-modal-title">Actions</h2>
+									<!-- <button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">Edit</button> -->
+									<button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" onclick="showsharemodal_{{ zig.id }}(this); fetch_image_{{zig.id}}()">Share</button>
+									<button class="uk-button uk-button-danger uk-width-1-1" onclick="deleteZig('{{zig.id}}')">Delete</button>
+									<p class="uk-text-right">
+										<button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+									</p>
+								</div>
+							</div></div>
+						{% endif %}
+
+						</div>
+			        </center>
+			<center>
+
+
+
+			</center>
+		</div>
+	</div>
+</center>
+
+<script>
+
+// const shareFileButton = document.querySelector('#shareButton')
+// console.log(shareFileButton)
+// shareFileButton.addEventListener('click', () => {
+//    shareImage('https://yashakarsh.pythonanywhere.com/media/profilePICS/profilePic_ghzFWLZ.jpg')
+// //   shareImage('study.png')
+// })
+
+
+
+function fetch_image_{{zig.id}}(){
+	var csrftoken = getCookie('csrftoken');
+
+	$.ajax({
+		headers: {
+                        'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+                    },
+		url: '{% url "share" %}',
+		data:{
+			'form_function':'shareImage',
+			'zig':'{{zig.id}}',
+		},
+		method: 'POST',
+		success: function (response) {
+			var imageUrl = 'data:image/png;base64,' + response.image;
+			obj=document.getElementById('image_container_{{zig.id}}')
+			obj.src=imageUrl
+		},
+		error: function (error) {
+			console.error('Error fetching image:', error);
+		}
+	});
+}
+
+async function shareImage(ImageUrl) {
+	imageUrl=ImageUrl
+	const blob = await (await fetch(imageUrl)).blob();
+	console.log(imageUrl)
+  const filesArray = [
+    new File([blob], 'navy_blue.png', {
+      type: blob.type,
+      lastModified: Date.now(),
+    }),
+  ]
+  const shareData = {
+    files: filesArray,
+  }
+  if (navigator.canShare && navigator.canShare(shareData)) {
+    await navigator.share(shareData)
+  }
+}
+    function fullscreenimgmyzigscard(element){
+            element.requestFullscreen()
+
+        $(element).dblclick(function(event){
+            document.exitFullscreen();
+            });
+        }
+
+		function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+</script>

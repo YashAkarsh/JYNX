@@ -1,0 +1,99 @@
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+
+<h3 class="uk-margin-small " >What do you wanna ask people?</h3>
+<textarea class="uk-input uk-height-small" type="text"  autocomplete="off" id="title" aria-label="Input" placeholder="What is love?" style="resize:none; line-height: 1.25;padding:10px" ></textarea>
+<h5></h5>
+{% if request.user.userdata.zig_privacy == True %}
+<select class="uk-select" aria-label="Select" id="mode">
+    <option>Public</option>
+    <option selected>Private</option>
+</select>
+{% else %}
+<select class="uk-select" aria-label="Select" id="mode">
+    <option selected>Public</option>
+    <option>Private</option>
+</select>
+{% endif %}
+
+<h5 class="uk-margin-small-top uk-margin-small-bottom">
+<label class="uk-margin-small-right"><input type="checkbox" class=" uk-checkbox" id="identity">&nbsp;Anonymous</label>
+<label><input type="checkbox" class=" uk-checkbox" id="hide_replies">&nbsp;Hide Replies</label>
+</h5>
+
+
+
+
+
+
+
+<ul uk-tab="animation: uk-animation-slide-left; toggle: > *">
+	
+    <li><a href="#">Default</a></li>
+    <li><a href="#">Youtube</a></li>
+    <li><a href="#">Spotify</a></li>
+</ul>
+
+<ul class="uk-switcher uk-margin" id="zig_types">
+   
+    <li>
+    	<h5 class="uk-margin-small-bottom uk-margin-small-top">Want to share an image?</h5>
+
+		<div class="uk-margin-remove uk-align-left" style="height: auto;">
+			<center><img id="output" style="display: none;width: auto;"
+					class="uk-height-small uk-width-small uk-margin-remove" /></center>
+			<br>
+
+			<div uk-form-custom>
+				<input type="file" name="zig_image" id="zig_image" accept="image/*" aria-label="Custom controls" onchange="loadFile(event)">
+
+				<button class="uk-button uk-button-default uk-margin-remove uk-align-center" type="button"
+					tabindex="-1">Select</button>
+
+
+			</div>
+
+		</div>	
+		
+
+    </li>
+     <li>
+    	
+
+    	<h5>Enter Video URL</h5>
+    	<input class="uk-input" type="url"  autocomplete="off" id="yt_url"  aria-label="Input">
+    </li>
+
+    <li>
+
+
+
+    	<h5 class="uk-margin-small-top uk-margin-small-bottom">Music Type</h5>
+    	<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+		    <li><a href="#">Track</a></li>
+		    <li><a href="#">Playlist</a></li>
+		  
+		</ul>
+
+		<ul class="uk-switcher uk-margin">
+		    <li><h5>Enter Track URL</h5><input class="uk-input"  autocomplete="off" type="url" id="track_url"  aria-label="Input"></li>
+		    <li><h5>Enter Playlist URL</h5><input class="uk-input"  autocomplete="off" type="url" id="playlist_url"  aria-label="Input"></li>
+		</ul>
+
+    </li>
+</ul>
+
+
+
+
+
+
+<script type="text/javascript">
+	var loadFile = function (event) {
+
+		var image = document.getElementById("output");
+		document.getElementById("output").style.display = "block"
+
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
+
+</script>

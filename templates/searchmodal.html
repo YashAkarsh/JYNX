@@ -1,0 +1,208 @@
+{% load static %}
+{% get_static_prefix as RES %}<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+{% if searchbarid == "topnavsearchmodal" %}
+<a class="uk-icon-button"  style="color:white;" href="#searchmodal" uk-icon="icon: search; ratio: 1.2;"  uk-tooltip="title: Search;pos: left;" uk-toggle></a>
+{% else %}
+<a class="uk-icon-button" href="#searchmodal" uk-icon="icon: search; ratio: 1.2;"  uk-tooltip="title: Search;pos: left;" uk-toggle></a>
+{% endif %}
+
+
+<div id="searchmodal" uk-modal>
+    <div class="uk-modal-dialog">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title">Search</h2>
+        </div>
+
+        <div class="uk-modal-body" uk-overflow-auto>
+
+
+
+
+
+
+<div>
+
+
+    <div>
+        <div class="uk-button-group uk-width-expand">
+              <input class="uk-input {{ searchbarid }}"  onclick="searchinputclicked{{ searchbarid }}()" style="border-radius: 50px 0px 0px 50px" type="text" aria-label="Clickable icon">
+           
+            <button class="uk-button uk-button-default uk-width-auto" style="border-radius: 0px 50px 50px 0px;padding: 0px 10px 0px 10px; " onclick="searchinputclicked{{ searchbarid }}()" ><span uk-icon="search"></span></button>
+        </div>
+    </div>
+
+
+      
+
+  
+  
+  <div class=" uk-width-expand" style="border-radius: 0px 0px 25px 25px;z-index: 999;;">
+    <ul class="uk-margin-small-top uk-margin-small-left uk-padding-small uk-padding-remove uk-margin-small-bottom uk-width-expand" id="{{ searchbarid }}" style="display:none;list-style: none;max-height: 150px;overflow-y: auto;">
+
+
+      <li class="uk-padding-remove uk-margin-remove uk-width-auto" >
+        
+          <b>Search Results</b>
+      </li>
+      {% if request.user.userdata.search_history.all %}
+            {% for searched_user in request.user.userdata.search_history.all %}
+                {% include "search_result_content.html" with user=searched_user%}
+            {% endfor %}
+      {% else %}
+            You can look for that person :)
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function searchinputclicked{{ searchbarid }}() {
+   
+      document.getElementById("{{ searchbarid }}").style.display = "block"
+   
+    
+  }
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+        }
+        }
+    }
+    return cookieValue;
+    }
+  $(document).ready(function() {
+
+      var inputElement = document.querySelector('.{{ searchbarid }}');
+      inputElement.addEventListener('input', function() {
+  
+
+      var formFunction='search_friends'
+      var src_value=document.querySelector('.{{ searchbarid }}').value
+
+      var suggestion_area=document.querySelector('#{{ searchbarid }}')
+      var csrftoken = getCookie('csrftoken');
+
+      var data = {
+          'src_value': src_value,
+          'form_function': formFunction
+      };
+
+      // Send the AJAX request to your Django view
+      $.ajax({
+          headers: {
+                  'X-CSRFToken': csrftoken 
+              },
+          url: '/',
+          method: 'POST',
+          data: data,
+          success: function(response) {
+
+              var search_results=[]
+              if(response!=''){
+                suggestion_area.innerHTML = "";
+                  response.forEach(function(matched_users_data) {
+           
+                      var li = document.createElement("li");
+                      li.innerHTML = matched_users_data;
+                      suggestion_area.appendChild(li);
+                  });
+              console.log(search_results)
+                  
+              }
+              else{
+                suggestion_area.innerHTML = `{% for searched_user in request.user.userdata.search_history.all %}
+        {% include "search_result_content.html" with user=searched_user %}
+      {% endfor %}`;
+
+              }
+          },
+          error: function(xhr, textStatus, error) {
+              console.log(xhr.statusText);
+          }
+      });
+  });
+  });
+  function search_clicked(user){
+    var csrftoken = getCookie('csrftoken');
+    var userID=user;
+    var formFunction='search_history';
+    var data = {
+          'user': userID,
+          'form_function': formFunction
+      };
+
+      // Send the AJAX request to your Django view
+      $.ajax({
+          headers: {
+                  'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+              },
+          url: '/',
+          method: 'POST',
+          data: data,
+          success: function(response) {
+              
+          },
+          error: function(xhr, textStatus, error) {
+              console.log(xhr.statusText);
+          }
+      });
+
+  }
+  function delete_history(user) {
+    var csrftoken = getCookie('csrftoken');
+    var userID = user;
+    var formFunction = 'delete_history';
+    var liElement = document.getElementById(userID);
+
+    var data = {
+        'user': userID,
+        'form_function': formFunction
+    };
+
+    // Send the AJAX request to your Django view
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken // Include the CSRF token in the request headers
+        },
+        url: '/',
+        method: 'POST',
+        data: data,
+        success: function(response) {
+            liElement.remove();
+            console.log('deleted from history');
+
+            
+        },
+        error: function(xhr, textStatus, error) {
+            console.log(xhr.statusText);
+        }
+    });
+}
+
+</script>
+
+
+
+
+
+
+
+
+        </div>
+
+        <div class="uk-modal-footer uk-text-center">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+          
+        </div>
+
+    </div>
+</div>

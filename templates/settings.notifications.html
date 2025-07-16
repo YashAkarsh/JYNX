@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+{% get_static_prefix as RES %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MSE22MZG8X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MSE22MZG8X');
+</script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css" />
+     <title>Jynx - Notification Settings</title>
+<meta name="google-adsense-account" content="ca-pub-5689772837818987">         
+         
+           <link rel="icon" type="image/x-icon" href="{{RES}}favicon.svg">
+<link rel="stylesheet" type="text/css" href="{{ RES }}scrollbar.css">
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+<style type="text/css">
+    html,body{
+    overflow-x: hidden;
+}
+</style>
+</head>
+<body style="background-color: #FFFFFE;">
+
+{% include "topnav.html" %}
+
+
+<!-- <button class="uk-icon uk-icon-button" uk-icon="chevron-double-right" type="button" uk-toggle="target: #offcanvas-push" style="position: absolute;top: 50%;border-radius: 0em 2em 2em 0em;background-color: #0E3D8B;color: #FFFFFE;scale: 1.5;z-index: 9999;" id="targetforclosingcanvasmenu"></button> -->
+
+ 
+                <div class="uk-margin-small uk-margin-small-left uk-width-expand uk-grid uk-grid-small" uk-grid>
+                    <div class="uk-card uk-margin-small-left uk-card-default uk-width-1-5 uk-visible@m uk-animation-slide-left" style="height:90%;border-radius: 20px;" >
+                        <h3 class="uk-width-expand uk-text-center">Settings</h3>
+                        <ul class="uk-list uk-list-divider uk-margin-small-bottom">
+
+                                 <li><span  uk-icon="icon: user"></span><a href="{% url 'settings' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Edit Profile</a></li>
+                                    <li><span uk-icon="icon: eye"></span><a  href="{% url 'settingsMyzigs' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Zigs settings</a></li>
+                                   
+                                    <li><span uk-icon="icon: bell"></span><a  href="{% url 'settingsNotifications' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Notifications</a></li>
+                                    <li><span uk-icon="icon: database"></span><a href="{% url 'settingsAccount' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;Account Control</a></li>
+                             
+                                    <li><span  uk-icon="icon: world"></span><a href="{% url 'about' %}" class="uk-text-middle " style="text-decoration:none;">&nbsp;What is it about?</a></li>
+</ul>
+                    </div>
+
+      <div class="uk-width-expand  uk-padding-small">
+        <div class=" uk-width-expand  uk-animation-slide-right">
+    
+        	<div class="uk-grid uk-grid-small uk-child-width-1-2@m">        		
+        		<div class=" uk-text-left uk-width-expand">
+        		
+
+        			
+
+
+
+        			<form>
+    <fieldset class="uk-fieldset">
+
+        <legend class="uk-legend"><h2 class="uk-padding-remove uk-margin-small-bottom">Notifications</h2></legend>
+
+        
+
+     
+        <div class="uk-margin uk-grid-small uk-child-width-auto" >
+            {% if request.user.userdata.email_notifications == True %}
+              
+                <label style="scale:1.5;font-size: x-large;"> Email : &nbsp;<input class="uk-checkbox email_notifications" type="checkbox"  checked></label>
+            {% else %}
+                <label style="scale:1.5;font-size: x-large;"> Email : &nbsp;<input class="uk-checkbox email_notifications" type="checkbox" ></label>
+
+            {% endif %}
+            
+           
+        </div>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto" >
+            {% if request.user.userdata.friend_requests_notifications == True %}
+              
+            <label style="scale:1.5;font-size: x-large;"> Friend Request Notification : &nbsp;<input class="uk-checkbox friend_requests_notifications" type="checkbox" checked ></label>
+            {% else %}
+            <label style="scale:1.5;font-size: x-large;"> Friend Request Notification : &nbsp;<input class="uk-checkbox friend_requests_notifications" type="checkbox" ></label>
+            {% endif %}
+            
+           
+        </div>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto" >
+            {% if request.user.userdata.reply_notifications == True %}
+                <label style="scale:1.5;font-size: x-large;"> Replies Notification : &nbsp;<input class="uk-checkbox reply_notifications " type="checkbox"  checked></label>
+            {% else %}
+                <label style="scale:1.5;font-size: x-large;"> Replies Notification : &nbsp;<input class="uk-checkbox reply_notifications" type="checkbox" ></label>
+            {% endif %}
+        </div>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto" >
+            <label style="scale:1.5;font-size: x-large;"> Zig Notification : &nbsp;<input class="uk-checkbox " type="checkbox"  checked></label>
+           
+        </div>
+
+    </fieldset>
+</form>
+
+        			<div>
+        				
+        			</div>
+        		</div>
+        		
+
+
+
+        	</div>
+        	
+        	
+
+        	<a class="uk-button uk-button-primary uk-width-medium uk-align-left uk-margin-small" onclick="notification_settings()">Save</a>
+
+        </div>
+    </div>
+</div>
+
+<div id="offcanvas-push" uk-offcanvas="mode: push; overlay: true">
+    <div class="uk-offcanvas-bar">
+    	{% include "sidenav.html" with notifications=notifications %}
+    </div>
+</div>
+
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function notification_settings() {
+        var csrftoken = getCookie('csrftoken');
+        var friend_requests_notifications = document.querySelector(".friend_requests_notifications").checked
+        var replies_notification = document.querySelector(".reply_notifications").checked
+        var email_notifications = document.querySelector(".email_notifications").checked
+        var formData = new FormData();
+        formData.append('form_function', 'change_notification_settings')
+        formData.append('friend_requests_notifications', friend_requests_notifications)
+        formData.append('reply_notifications', replies_notification)
+        formData.append('email_notifications', email_notifications)
+        
+        $.ajax({
+            headers: {
+                'X-CSRFToken': csrftoken  // Include the CSRF token in the request headers
+            },
+            url: "{% url 'settingsNotifications' %}",
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (response) {
+                // Handle response from the server
+						UIkit.notification({message: 'Saved',  pos: 'top-center'})
+
+                console.log('success_in_notification_settings');
+            },
+            error: function (error) {
+                // Handle error
+                console.log('error in notification_settings')
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
